@@ -10,13 +10,13 @@ exports.createUser = async (data)=>{
 
     const password = data.password;
     const salt = 10;
-    const hash = await bcrypt.hash(String(password), salt).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
+    const hash = await bcrypt.hash(password, salt).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
 
     const userData = {
         email: data.email,
         password: hash,
     };
-    
+
     const user =await User.create(userData);
     user.password=undefined;
     return { message: "User created successfully", user: user };
