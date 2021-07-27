@@ -68,6 +68,15 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/loginRoutes"
             },
+            {
+                plugin : "../app/routes/v1/categoryRoutes"
+            },
+            {
+                plugin : "../app/routes/v1/productRoutes"
+            },
+            {
+                plugin : "../app/routes/v1/subCategoryRoutes"
+            },
         ]
     }
 };

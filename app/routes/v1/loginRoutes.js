@@ -2,7 +2,7 @@ const usercontroller = require("../../controller/loginController");
 
 exports.plugin = { 
   pkg : require("../../../package.json"),
-  name : "login router",
+  name : "Login Router",
   register : async(server , options)=>{
     server.route(
       [

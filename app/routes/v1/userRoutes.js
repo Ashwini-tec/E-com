@@ -1,8 +1,8 @@
-const usercontroller = require("../../controller/user");
+const usercontroller = require("../../controller/userController");
 
 exports.plugin = { 
   pkg : require("../../../package.json"),
-  name : "user Router",
+  name : "User Router",
   register : async(server , options)=>{
     server.route(
       [

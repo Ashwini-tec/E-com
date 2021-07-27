@@ -34,7 +34,7 @@ const isAlreadyExist = async(email)=>{
     if(user) return true ;
     else return false ;
 
-  } catch (error) {
+  } catch (err) {
     return { err: err.message };
   }
 }

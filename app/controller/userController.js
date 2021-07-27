@@ -19,7 +19,7 @@ exports.createUser= {
   handler:async( request , h )=>{
     try {
       const userData = request.payload;
-      let user = await services.createUser(userData);
+      const user = await services.createUser(userData);
       if(!user.user){ return h.response({ message:user.message }).code(409)}
       return h.response(user).code(201);
 
