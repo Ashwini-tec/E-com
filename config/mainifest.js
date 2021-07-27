@@ -62,9 +62,11 @@ internals.manifest = {
             },
 
             /******* register APIs ********/
-
             {
-                plugin : "../app/routes/userRoutes.js"
+                plugin : "../app/routes/v1/userRoutes"
+            },
+            {
+                plugin : "../app/routes/v1/loginRoutes"
             },
         ]
     }
