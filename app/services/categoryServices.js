@@ -1,4 +1,3 @@
-
 const Category = require("../models/Category");
 
 /********** create category ****************/
@@ -23,13 +22,52 @@ exports.createCategory = async (data)=>{
 /********** show all category ****************/
 exports.getAllCategory = async ()=>{
     try {
-      const category =await Category.find();
+      const category =await Category.find({ status: true });
       return { message: "category successfully fetched", category: category };
   
     } catch (err) {
       return { err: err.message };
     }
   };
+
+
+/********** show single category ****************/
+exports.getCategory = async (id)=>{
+  try {
+    const category =await Category.find({ _id : id });
+    if(!category){ return { message : "category not found please check the detail" , category: null }}
+    return { message: "category successfully fetched", category: category };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+/********** edit category ****************/
+exports.editCategory = async ( id ,data)=>{
+  try {
+    const category =await Category.findByIdAndUpdate({ _id : id }, data ,{ new : true });
+    if(!category){ return { message : "error in updation please check the detail" , category: null }}
+    return { message: "category successfully updated", category: category };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+/********** delete category ****************/
+exports.deleteCategory = async ( id )=>{
+  try {
+    const category =await Category.findByIdAndUpdate({ _id : id },{ status: false },{ new : true });
+    if(!category){ return { message : "error in delete please check the detail" , category: null }}
+    return { message: "category successfully deleted", category: category };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
 
 
 

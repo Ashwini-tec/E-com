@@ -17,6 +17,21 @@ exports.plugin = {
           path: '/category',
           config: controller.getAllCategory
         },
+        {
+          method: 'GET',
+          path: '/category/{id}',
+          config: controller.getCategory
+        },
+        {
+          method: 'PUT',
+          path: '/category/{id}',
+          config: controller.editCategory
+        },
+        {
+          method: 'DELETE',
+          path: '/category/{id}',
+          config: controller.deleteCategory
+        },
       ]
     )
   }

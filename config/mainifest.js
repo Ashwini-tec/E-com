@@ -77,6 +77,9 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/subCategoryRoutes"
             },
+            {
+                plugin : "../app/routes/v1/filterRoutes"
+            },
         ]
     }
 };

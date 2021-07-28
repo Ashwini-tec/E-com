@@ -18,10 +18,26 @@ exports.plugin = {
             config: controller.getAllProduct
         },
         {
-            method: 'GET',
-            path: '/product/{id}',
-            config: controller.getAllFilteredProduct
+          method: 'GET',
+          path: '/product/{id}',
+          config: controller.getProduct
         },
+        {
+          method: 'PUT',
+          path: '/product/{id}',
+          config: controller.editProduct
+        },
+        {
+          method: 'DELETE',
+          path: '/product/{id}',
+          config: controller.deleteProduct
+        },
+
+        // {
+        //     method: 'GET',
+        //     path: '/products/{id}',
+        //     config: controller.getAllFilteredProduct
+        // },
       ]
     )
   }

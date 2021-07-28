@@ -6,7 +6,8 @@ const categorySchema = new Schema({
         type: String ,
         unique: true,
         required: true 
-    }
+    },
+    status: { type: Boolean , default: true }
 },{ timestamps: true });
 
 const Category = mongoose.model('category', categorySchema);

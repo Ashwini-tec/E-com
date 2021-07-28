@@ -1,4 +1,4 @@
-const controller = require("../../controller/categoryController");
+const controller = require("../../controller/subCategoryController");
 
 exports.plugin = { 
   pkg : require("../../../package.json"),
@@ -10,12 +10,27 @@ exports.plugin = {
         {
           method: 'POST',
           path: '/subCategory',
-          config: controller.createCategory
+          config: controller.createSubCategory
         },
         {
           method: 'GET',
           path: '/subCategory',
-          config: controller.getAllCategory
+          config: controller.getAllSubCategory
+        },
+        {
+          method: 'GET',
+          path: '/subCategory/{id}',
+          config: controller.getSubCategory
+        },
+        {
+          method: 'PUT',
+          path: '/subCategory/{id}',
+          config: controller.editSubCategory
+        },
+        {
+          method: 'DELETE',
+          path: '/subCategory/{id}',
+          config: controller.deleteSubCategory
         },
       ]
     )

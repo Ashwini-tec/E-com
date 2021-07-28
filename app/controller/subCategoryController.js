@@ -1,13 +1,14 @@
-const services = require("../services/categoryServices");
+const services = require("../services/subCategoryServices");
 const Joi = require('joi');
 
 
-/********* create category ************/
-exports.createCategory= { 
-  description: 'create category',
+/********* create subCategory ************/
+exports.createSubCategory= { 
+  description: 'create subCategory',
   validate: {
     payload : Joi.object({
-      name: Joi.string().min(3).required(),
+      subCategory: Joi.string().min(3).required(),
+      category: Joi.string().required()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -15,10 +16,9 @@ exports.createCategory= {
   },
   handler:async( request , h )=>{
     try {
-      const catData = request.payload;
-      let data = await services.createCategory(catData);
-      if(data.err){ return h.response({ message : data.err }).code(400)};
-      if(!data.category){ return h.response({ message:data.message }).code(409)}
+      const subCat = request.payload;
+      const data = await services.createSubCategory(subCat);
+      if(!data.subCategory){ return h.response({ message:data.message }).code(409)}
       return h.response(data).code(201);
 
     } catch (error) {
@@ -29,14 +29,13 @@ exports.createCategory= {
 };
 
 
-/********* get all the Category ************/
-exports.getAllCategory= { 
-    description: 'Fetch all categories',
+/********* get all the subCategory ************/
+exports.getAllSubCategory= { 
+    description: 'Fetch all subCategories',
     handler:async( request , h )=>{
       try {
-        const data = await services.getAllCategory();
-        if(data.err){ return h.response({ message : data.err }).code(400)};
-        if(!data.category){ return h.response({ message:data.message }).code(400)}
+        const data = await services.getAllSubCategory();
+        if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
         return h.response(data).code(200);
   
       } catch (error) {
@@ -47,12 +46,12 @@ exports.getAllCategory= {
   };
 
 
-/********* get a the Category ************/
-exports.getCategory= { 
-  description: 'Fetch single categories',
+/********* get single subCategory ************/
+exports.getSubCategory= { 
+  description: 'Fetch subCategories',
   validate: {
     params : Joi.object({
-      id: Joi.string().required(),
+      id: Joi.string().required()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -61,9 +60,8 @@ exports.getCategory= {
   handler:async( request , h )=>{
     try {
       const id = request.params.id;
-      const data = await services.getCategory(id);
-      if(data.err){ return h.response({ message : data.err }).code(400)};
-      if(!data.category){ return h.response({ message:data.message }).code(400)}
+      const data = await services.getSubCategory(id);
+      if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
       return h.response(data).code(200);
 
     } catch (error) {
@@ -75,15 +73,18 @@ exports.getCategory= {
 
 
 
-/********* edit a the Category ************/
-exports.editCategory= { 
-  description: 'edit categories',
+
+
+/********* edit subCategory ************/
+exports.editSubCategory= { 
+  description: 'edit subCategory',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
     }),
     payload : Joi.object({
-      name: Joi.string().min(3).required(),
+      subCategory: Joi.string().min(3).optional(),
+      category: Joi.string().optional()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -93,9 +94,9 @@ exports.editCategory= {
     try {
       const id = request.params.id;
       const detail = request.payload;
-      const data = await services.editCategory(id , detail);
+      const data = await services.editSubCategory(id , detail);
       if(data.err){ return h.response({ message : data.err }).code(400)};
-      if(!data.category){ return h.response({ message:data.message }).code(400)}
+      if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
       return h.response(data).code(200);
 
     } catch (error) {
@@ -106,10 +107,9 @@ exports.editCategory= {
 };
 
 
-
-/********* delete a the Category ************/
-exports.deleteCategory= { 
-  description: 'delete categories',
+/********* delete subCategory ************/
+exports.deleteSubCategory= { 
+  description: 'delete subCategory',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -121,9 +121,9 @@ exports.deleteCategory= {
   handler:async( request , h )=>{
     try {
       const id = request.params.id;
-      const data = await services.deleteCategory(id);
+      const data = await services.deleteSubCategory(id);
       if(data.err){ return h.response({ message : data.err }).code(400)};
-      if(!data.category){ return h.response({ message:data.message }).code(400)}
+      if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
       return h.response(data).code(200);
 
     } catch (error) {

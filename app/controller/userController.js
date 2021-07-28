@@ -1,7 +1,5 @@
-require('dotenv').config();
 const services = require("../services/userServices");
 const Joi = require('joi');
-require('dotenv').config();
 
 
 /********* create user ************/
@@ -20,6 +18,7 @@ exports.createUser= {
     try {
       const userData = request.payload;
       const user = await services.createUser(userData);
+      if(user.err){ return h.response({ message : user.err }).code(400)};
       if(!user.user){ return h.response({ message:user.message }).code(409)}
       return h.response(user).code(201);
 

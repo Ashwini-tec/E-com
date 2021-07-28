@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subCategorySchema = new Schema({
-  name: {
+  subCategory: {
         type: String,
-        unique: true,
         required: true 
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'category'
-    }
+    },
+    status: { type: Boolean , default: true },
 },{ timestamps: true });
 
 const SubCategory = mongoose.model('subCategory', subCategorySchema);
