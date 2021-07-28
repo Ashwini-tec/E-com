@@ -52,6 +52,11 @@ internals.manifest = {
             {
                 plugin: 'hapi-auth-jwt2'
             },
+               //  JWT-Authentication strategy
+               {
+                plugin:  '../lib/jwtAuth',
+                options: config.get('/jwtAuthOptions')
+            },
 
             /*******  mongoose plugin register **************/
             {

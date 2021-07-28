@@ -43,7 +43,7 @@ exports.getAllProduct = async ()=>{
 /********** show single product ****************/
 exports.getProduct = async (id)=>{
   try {
-    const product =await Product.find({ _id: id })
+    const product =await Product.findOne({ _id: id })
     .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
     .populate( 'subCategory',{ category:0, updatedAt:0 , createdAt:0, __v:0 , status: 0 })
     .select({ updatedAt:0 , createdAt:0, __v:0 } );

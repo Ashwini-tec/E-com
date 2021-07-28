@@ -5,6 +5,7 @@ const Joi = require('joi');
 /********* create subCategory ************/
 exports.createSubCategory= { 
   description: 'create subCategory',
+  auth: 'token',
   validate: {
     payload : Joi.object({
       subCategory: Joi.string().min(3).required(),
@@ -32,6 +33,7 @@ exports.createSubCategory= {
 /********* get all the subCategory ************/
 exports.getAllSubCategory= { 
     description: 'Fetch all subCategories',
+    auth: false ,
     handler:async( request , h )=>{
       try {
         const data = await services.getAllSubCategory();
@@ -49,6 +51,7 @@ exports.getAllSubCategory= {
 /********* get single subCategory ************/
 exports.getSubCategory= { 
   description: 'Fetch subCategories',
+  auth: false ,
   validate: {
     params : Joi.object({
       id: Joi.string().required()
@@ -78,6 +81,7 @@ exports.getSubCategory= {
 /********* edit subCategory ************/
 exports.editSubCategory= { 
   description: 'edit subCategory',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -110,6 +114,7 @@ exports.editSubCategory= {
 /********* delete subCategory ************/
 exports.deleteSubCategory= { 
   description: 'delete subCategory',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),

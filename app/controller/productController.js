@@ -5,6 +5,7 @@ const Joi = require('joi');
 /********* create product ************/
 exports.createProduct= { 
   description: 'create product',
+  auth: 'token',
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
@@ -36,6 +37,7 @@ exports.createProduct= {
 /********* get all the product ************/
 exports.getAllProduct= { 
     description: 'Fetch all product',
+    auth: false ,
     handler:async( request , h )=>{
       try {
         const data = await services.getAllProduct();
@@ -55,6 +57,7 @@ exports.getAllProduct= {
 /********* get product ************/
 exports.getProduct= { 
   description: 'Fetch single product',
+  auth: false ,
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -83,6 +86,7 @@ exports.getProduct= {
 /********* edit a the product ************/
 exports.editProduct= { 
   description: 'edit product',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -123,6 +127,7 @@ exports.editProduct= {
 /********* delete product ************/
 exports.deleteProduct= { 
   description: 'delete product',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),

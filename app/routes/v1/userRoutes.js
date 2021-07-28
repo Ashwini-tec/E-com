@@ -12,6 +12,16 @@ exports.plugin = {
           path: '/user',
           config: usercontroller.createUser
         },
+        {
+          method: 'POST',
+          path: '/user/{id}',
+          config: usercontroller.getUser
+        },
+        {
+          method: 'PUT',
+          path: '/user/{id}',
+          config: usercontroller.editUser
+        },
       ]
     )
   }

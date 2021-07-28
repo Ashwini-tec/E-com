@@ -26,6 +26,39 @@ exports.createUser = async (data)=>{
   }
 };
 
+
+
+/********** show user ****************/
+exports.getUser = async (id)=>{
+  try {
+    const user =await User.findOne({ _id : id });
+    if(!user){ return { message : "user not found please check the detail" , user: null }}
+    return { message: "user successfully fetched", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+/********** edit user ****************/
+exports.editUser = async ( id ,data)=>{
+  try {
+    const user =await User.findByIdAndUpdate({ _id : id }, data ,{ new : true });
+    if(!user){ return { message : "error in updation please check the detail" , user: null }}
+    return { message: "user successfully updated", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+
+
+
 // check user already exist or not 
 
 const isAlreadyExist = async(email)=>{

@@ -5,6 +5,7 @@ const Joi = require('joi');
 /********* create category ************/
 exports.createCategory= { 
   description: 'create category',
+  auth: 'token',
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
@@ -32,6 +33,7 @@ exports.createCategory= {
 /********* get all the Category ************/
 exports.getAllCategory= { 
     description: 'Fetch all categories',
+    auth: false,
     handler:async( request , h )=>{
       try {
         const data = await services.getAllCategory();
@@ -50,6 +52,7 @@ exports.getAllCategory= {
 /********* get a the Category ************/
 exports.getCategory= { 
   description: 'Fetch single categories',
+  auth: false ,
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -78,6 +81,7 @@ exports.getCategory= {
 /********* edit a the Category ************/
 exports.editCategory= { 
   description: 'edit categories',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
@@ -110,6 +114,7 @@ exports.editCategory= {
 /********* delete a the Category ************/
 exports.deleteCategory= { 
   description: 'delete categories',
+  auth: 'token',
   validate: {
     params : Joi.object({
       id: Joi.string().required(),

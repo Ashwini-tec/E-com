@@ -37,7 +37,7 @@ exports.getAllSubCategory = async ()=>{
 /********** show single subCategory ****************/
 exports.getSubCategory = async (id)=>{
   try {
-    const subCategory =await SubCategory.find({_id : id });
+    const subCategory =await SubCategory.findOne({_id : id });
     if(!subCategory){ return { message: "not found check the detail", subCategory: null }}
     return { message: "subCategory successfully fetched", subCategory: subCategory };
 

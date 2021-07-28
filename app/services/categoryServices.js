@@ -34,7 +34,7 @@ exports.getAllCategory = async ()=>{
 /********** show single category ****************/
 exports.getCategory = async (id)=>{
   try {
-    const category =await Category.find({ _id : id });
+    const category =await Category.findOne({ _id : id });
     if(!category){ return { message : "category not found please check the detail" , category: null }}
     return { message: "category successfully fetched", category: category };
 
