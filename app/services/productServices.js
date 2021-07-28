@@ -1,6 +1,5 @@
 
 const Product = require("../models/Product");
-// const filter = require("lodash.filter");
 
 /********** create product ****************/
 exports.createProduct = async (data)=>{
@@ -86,23 +85,6 @@ exports.deleteProduct = async ( id )=>{
     return { err: err.message };
   }
 };
-
-
-
-
-// /********** get all product according to category ****************/
-// exports.getfilteredProduct = async (id)=>{
-//     try {
-//       const product =await Product.find().populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 }).select({ updatedAt:0 , createdAt:0, __v:0 } );
-//       const results = filter(product, (item)=>{
-//       return item.category._id == id;
-//       });
-//       return { message: "product successfully fetched", product: results };
-  
-//     } catch (err) {
-//       return { err: err.message };
-//     }
-//   };
 
 
 // check category already exist or not 

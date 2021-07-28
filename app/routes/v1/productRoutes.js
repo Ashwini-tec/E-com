@@ -32,12 +32,6 @@ exports.plugin = {
           path: '/product/{id}',
           config: controller.deleteProduct
         },
-
-        // {
-        //     method: 'GET',
-        //     path: '/products/{id}',
-        //     config: controller.getAllFilteredProduct
-        // },
       ]
     )
   }
