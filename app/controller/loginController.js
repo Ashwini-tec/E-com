@@ -23,8 +23,9 @@ exports.login = {
       const data = await services.loginUser(user);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.user){ return h.response({ data : data }).code(400)}
+      const role = data.user.role;
       const id = data.user._id; 
-      let jwtToken = jwt.sign( { id } , `${process.env.JWT_SECRET_KEY}`, { expiresIn: '1 day' });
+      let jwtToken = jwt.sign( { id , role } , `${process.env.JWT_SECRET_KEY}`, { expiresIn: '1 day' });
       return h.response({ data: data , token: jwtToken }).code(200);
     } catch (error) {
       return h.response( error.message ).code(500);

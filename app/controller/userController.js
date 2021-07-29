@@ -5,8 +5,10 @@ const Joi = require('joi');
 /********* create user ************/
 exports.createUser= { 
   description: 'create user',
+  auth: 'token',
   validate: {
     payload : Joi.object({
+      name: Joi.string().min(3).required(),
       email: Joi.string().email().required(),
       password: Joi.string().min(5).required()
     }),
@@ -16,6 +18,8 @@ exports.createUser= {
   },
   handler:async( request , h )=>{
     try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role !== 'admin'){ return h.response({ message: 'only admin have the permission to create user'}).code(400)}
       const userData = request.payload;
       const user = await services.createUser(userData);
       if(user.err){ return h.response({ message : user.err }).code(400)};

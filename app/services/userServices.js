@@ -13,8 +13,9 @@ exports.createUser = async (data)=>{
     const hash = await bcrypt.hash(password, salt).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
 
     const userData = {
+        name: data.name,
         email: data.email,
-        password: hash,
+        password: hash
     };
 
     const user =await User.create(userData);
@@ -45,6 +46,11 @@ exports.getUser = async (id)=>{
 /********** edit user ****************/
 exports.editUser = async ( id ,data)=>{
   try {
+    if(data.email){
+        const valid = await isAlreadyExist(data.email);
+        if(valid){ return { message : "user already exist" ,user : null }};
+    }
+   
     const user =await User.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!user){ return { message : "error in updation please check the detail" , user: null }}
     return { message: "user successfully updated", user: user };

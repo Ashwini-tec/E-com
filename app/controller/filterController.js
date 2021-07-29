@@ -5,6 +5,7 @@ const Joi = require('joi');
 /********* get all the product according to category ************/
 exports.getCatProduct= { 
     description: 'filter all product according to category',
+    auth: false,
     validate: {
         params : Joi.object({
           id: Joi.string().required(),
@@ -33,6 +34,7 @@ exports.getCatProduct= {
 /********* get all the product according to subCategory ************/
 exports.getSubProduct= { 
     description: 'filter all product according to subCategory',
+    auth: false,
     validate: {
         params : Joi.object({
           id: Joi.string().required(),
@@ -61,6 +63,7 @@ exports.getSubProduct= {
 /********* get all the subCategory according to category ************/
 exports.getSubCategory= { 
     description: 'filter subCategory according to category',
+    auth: false,
     validate: {
         params : Joi.object({
           id: Joi.string().required(),

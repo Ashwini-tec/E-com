@@ -17,7 +17,7 @@ internals.manifest = {
         routes: {
             cors: {
                 origin: ['*'],
-                additionalHeaders: ['headers']
+                additionalHeaders: ['cache-control', 'x-requested-with']
             }
         } 
     },
@@ -65,6 +65,11 @@ internals.manifest = {
                     config : config.get('/mongoose')
                 }
             },
+             // Email connector 
+            {
+                plugin: '../lib/mail',
+                options: config.get('/email')
+            },
 
             /******* register APIs ********/
             {
@@ -84,6 +89,9 @@ internals.manifest = {
             },
             {
                 plugin : "../app/routes/v1/filterRoutes"
+            },
+            {
+                plugin : "../app/routes/v1/queryInfoRoutes"
             },
         ]
     }
