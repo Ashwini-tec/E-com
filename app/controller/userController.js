@@ -35,6 +35,29 @@ exports.createUser= {
 
 
 
+/********* get all the user ************/
+exports.getAllUser= { 
+  description: 'Fetch all user',
+  auth: 'token',
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role !== 'admin'){ return h.response({ message: 'only admin have the permission to fetch all user details'}).code(400)}
+
+      const data = await services.getAllUser();
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.user){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
 /********* get a the user ************/
 exports.getUser= { 
   description: 'Fetch user',
@@ -79,6 +102,36 @@ exports.editUser= {
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.user){ return h.response({ message:data.message }).code(400)}
       data.user.password = undefined;
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+
+/********* delete user ************/
+exports.deleteUser= { 
+  description: 'delete user',
+  auth: 'token',
+  validate: {
+    params : Joi.object({
+      id: Joi.string().required(),
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const id = request.params.id;
+      const data = await services.deleteUser(id);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.user){ return h.response({ message:data.message }).code(400)}
       return h.response(data).code(200);
 
     } catch (error) {

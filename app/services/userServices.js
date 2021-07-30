@@ -28,6 +28,17 @@ exports.createUser = async (data)=>{
 };
 
 
+/********** show all user ****************/
+exports.getAllUser = async ()=>{
+  try {
+    const user =await User.find().select({password:0});
+    return { message: "user successfully fetched", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
 
 /********** show user ****************/
 exports.getUser = async (id)=>{
@@ -54,6 +65,19 @@ exports.editUser = async ( id ,data)=>{
     const user =await User.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!user){ return { message : "error in updation please check the detail" , user: null }}
     return { message: "user successfully updated", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+/********** delete user ****************/
+exports.deleteUser = async ( id )=>{
+  try {
+    const user =await User.deleteOne({_id: id});
+    if(!user){ return { message : "error in delete please check the detail" , user: null }}
+    return { message: "user successfully deleted", user: user };
 
   } catch (err) {
     return { err: err.message };

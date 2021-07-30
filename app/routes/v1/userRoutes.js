@@ -13,6 +13,11 @@ exports.plugin = {
           config: usercontroller.createUser
         },
         {
+          method: 'GET',
+          path: '/user',
+          config: usercontroller.getAllUser
+        },
+        {
           method: 'POST',
           path: '/user/{id}',
           config: usercontroller.getUser
@@ -21,6 +26,11 @@ exports.plugin = {
           method: 'PUT',
           path: '/user/{id}',
           config: usercontroller.editUser
+        },
+        {
+          method: 'DELETE',
+          path: '/user/{id}',
+          config: usercontroller.deleteUser
         },
       ]
     )
