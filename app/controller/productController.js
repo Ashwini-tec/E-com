@@ -1,6 +1,5 @@
 const services = require("../services/productServices");
 const Joi = require('joi');
-const { date } = require("joi");
 
 
 /********* create product ************/
