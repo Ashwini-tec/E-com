@@ -32,6 +32,11 @@ exports.plugin = {
           path: '/product/{id}',
           config: controller.deleteProduct
         },
+        {
+          method: 'PUT',
+          path: '/price-visibility',
+          config: controller.setVisibility
+        },
       ]
     )
   }

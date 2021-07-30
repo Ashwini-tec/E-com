@@ -19,7 +19,6 @@
     "@hapi/vision": "^6.1.0",
     "bcrypt": "^5.0.1",
     "confidence": "^5.0.1",
-    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "hapi-auth-jwt2": "^10.2.0",
     "hapi-swagger": "^14.2.1",

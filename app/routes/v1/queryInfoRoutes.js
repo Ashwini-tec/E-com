@@ -17,6 +17,11 @@ exports.plugin = {
           path: '/query',
           config: controller.getAllQuery
         },
+        {
+          method: 'POST',
+          path: '/contact-us',
+          config: controller.contactUs
+        },
       ]
     )
   }

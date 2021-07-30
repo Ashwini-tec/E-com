@@ -12,7 +12,7 @@ exports.userQueryInfo= {
       name: Joi.string().min(3).required(),
       productId: Joi.string().required(),
       email: Joi.string().email().required(),
-      contact: Joi.number().required(),
+      contact: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
       message: Joi.string().min(10).max(100).required()
     }),
     failAction: (request, h, error) => {
@@ -23,7 +23,7 @@ exports.userQueryInfo= {
     try {
       const queryData = request.payload;
       const data = await services.userQueryInfo(queryData);
-      const mail = await mailer.sendMail(queryData);
+      if(data){ await mailer.sendMail(queryData) }
       if(data.err){ return h.response({ message : data.err }).code(400)};
       return h.response(data).code(201);
 
@@ -53,3 +53,33 @@ exports.getAllQuery= {
     },
     tags: ['api'] //swagger documentation
   };
+
+
+/************************ contact us via mail *********************/
+
+exports.contactUs= { 
+  description: 'contact us',
+  auth: false,
+  validate: {
+    payload : Joi.object({
+      name: Joi.string().min(3).required(),
+      email: Joi.string().email().required(),
+      message: Joi.string().min(10).max(100).required()
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const queryData = request.payload;
+      await mailer.contactMail(queryData);
+      return h.response({ message: " mail successfully send "}).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+

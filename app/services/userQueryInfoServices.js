@@ -1,4 +1,4 @@
-const UserQuery = require("../models/userQueryInfo");
+const UserQuery = require("../models/UserQueryInfo");
 
 /********** user Query info ****************/
 exports.userQueryInfo = async (data)=>{

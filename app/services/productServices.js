@@ -87,6 +87,22 @@ exports.deleteProduct = async ( id )=>{
 };
 
 
+
+
+/********** set visibility of the price ****************/
+exports.setVisibility = async ( data )=>{
+  try {
+    const product =await Product.updateMany({ priceFlag: data.priceFlag });
+    if(!product){ return { message : "error in updation please check the detail" , product: null }}
+    return { message: "priceFlag successfully updated", product: product };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
 // check category already exist or not 
 
 const isAlreadyExist = async(name)=>{

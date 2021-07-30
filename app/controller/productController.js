@@ -1,5 +1,6 @@
 const services = require("../services/productServices");
 const Joi = require('joi');
+const { date } = require("joi");
 
 
 /********* create product ************/
@@ -41,6 +42,14 @@ exports.getAllProduct= {
     handler:async( request , h )=>{
       try {
         const data = await services.getAllProduct();
+
+        await data.product.find( item =>{
+          if(!item.priceFlag){
+            return ( item.price = undefined , item.priceFlag = undefined );  
+          }
+          return item.priceFlag = undefined ;
+        });
+
         if(data.err){ return h.response({ message : data.err }).code(400)};
         if(!data.product){ return h.response({ message:data.message }).code(400)}
         return h.response(data).code(200);
@@ -72,6 +81,12 @@ exports.getProduct= {
       const data = await services.getProduct(id);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.product){ return h.response({ message:data.message }).code(400)}
+
+      const priceFlag = data.product.priceFlag;
+      if(!priceFlag){
+        data.product.price = undefined
+      }
+      data.product.priceFlag = undefined ;
       return h.response(data).code(200);
 
     } catch (error) {
@@ -120,10 +135,6 @@ exports.editProduct= {
 
 
 
-
-
-
-
 /********* delete product ************/
 exports.deleteProduct= { 
   description: 'delete product',
@@ -150,3 +161,30 @@ exports.deleteProduct= {
   },
   tags: ['api'] //swagger documentation
 };
+
+
+/******************* set price visibility{ true or false } ****************/
+
+exports.setVisibility= { 
+  description: 'set visibility of the price',
+  auth: false ,
+  validate:{
+    payload :Joi.object({
+      priceFlag: Joi.boolean().required()
+    })
+  },
+  handler:async( request , h )=>{
+    try {
+      const visible = request.payload;
+      const data = await services.setVisibility(visible);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
