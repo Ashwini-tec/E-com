@@ -8,6 +8,7 @@ exports.createCategory = async (data)=>{
 
     const categoryData = {
         name: data.name,
+        createdBy: data.user
     };
 
     const category =await Category.create(categoryData);
@@ -22,7 +23,7 @@ exports.createCategory = async (data)=>{
 /********** show all category ****************/
 exports.getAllCategory = async ()=>{
     try {
-      const category =await Category.find({ status: true });
+      const category =await Category.find({ status: true }).populate('createdBy',['name']);
       return { message: "category successfully fetched", category: category };
   
     } catch (err) {
@@ -34,7 +35,7 @@ exports.getAllCategory = async ()=>{
 /********** show single category ****************/
 exports.getCategory = async (id)=>{
   try {
-    const category =await Category.findOne({ _id : id });
+    const category =await Category.findOne({ _id : id }).populate("createdBy",{ name : 1 });
     if(!category){ return { message : "category not found please check the detail" , category: null }}
     return { message: "category successfully fetched", category: category };
 

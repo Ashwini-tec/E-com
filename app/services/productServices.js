@@ -12,7 +12,8 @@ exports.createProduct = async (data)=>{
         image : data.image,
         price : data.price,
         category : data.category,
-        subCategory : data.subCategory
+        subCategory : data.subCategory,
+        createdBy : data.user
     };
 
     const product =await Product.create(productData);
@@ -28,8 +29,9 @@ exports.createProduct = async (data)=>{
 exports.getAllProduct = async ()=>{
     try {
       const product =await Product.find({ status: true })
-      .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
-      .populate( 'subCategory',{ category:0, updatedAt:0 , createdAt:0, __v:0 , status: 0 })
+      .populate( 'category',['name'])
+      .populate( 'subCategory',['subCategory'])
+      .populate('createdBy',['name'])
       .select({ updatedAt:0 , createdAt:0, __v:0 } );
       return { message: "product successfully fetched", product: product };
   
@@ -44,8 +46,9 @@ exports.getAllProduct = async ()=>{
 exports.getProduct = async (id)=>{
   try {
     const product =await Product.findOne({ _id: id })
-    .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
-    .populate( 'subCategory',{ category:0, updatedAt:0 , createdAt:0, __v:0 , status: 0 })
+    .populate( 'category',['name'])
+    .populate( 'subCategory',['subCategory'])
+    .populate('createdBy',['name'])
     .select({ updatedAt:0 , createdAt:0, __v:0 } );
     if(!product){ return { message: "product not found check the detail", product: null }}
     return { message: "product successfully fetched", product: product };

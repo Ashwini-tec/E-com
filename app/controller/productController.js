@@ -21,6 +21,7 @@ exports.createProduct= {
   handler:async( request , h )=>{
     try {
       const productData = request.payload;
+      productData.user = request.auth.artifacts.decoded.id;
       let data = await services.createProduct(productData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.product){ return h.response({ message:data.message }).code(409)}

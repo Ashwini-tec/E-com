@@ -17,6 +17,7 @@ exports.createCategory= {
   handler:async( request , h )=>{
     try {
       const catData = request.payload;
+      catData.user = request.auth.artifacts.decoded.id;
       let data = await services.createCategory(catData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.category){ return h.response({ message:data.message }).code(409)}

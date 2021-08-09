@@ -8,7 +8,9 @@ const productSchema = new Schema({
   image: { type : String , required: true },
   category: { type: mongoose.Schema.Types.ObjectId  , required: true , ref: "category"},
   subCategory: { type: mongoose.Schema.Types.ObjectId  , required: true , ref: "subCategory" },
-  status: { type: Boolean , default: true }
+  status: { type: Boolean , default: true },
+  createdBy : { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'user' } 
+  
 },{ timestamps: true });
 
 const Product = mongoose.model('product', productSchema);

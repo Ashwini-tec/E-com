@@ -1,5 +1,6 @@
 const SubCategory = require("../models/SubCategory");
 const filter = require("lodash.filter");
+const { populate } = require("../models/SubCategory");
 
 /********** create SubCategory ****************/
 exports.createSubCategory = async (data)=>{
@@ -9,7 +10,8 @@ exports.createSubCategory = async (data)=>{
 
     const subCategory = {
         subCategory: data.subCategory,
-        category: data.category
+        category: data.category,
+        createdBy: data.user
     };
 
     const subCat =await SubCategory.create(subCategory);
@@ -24,7 +26,9 @@ exports.createSubCategory = async (data)=>{
 /********** show all subCategory ****************/
 exports.getAllSubCategory = async ()=>{
     try {
-      const subCategory =await SubCategory.find({ status : true }).populate('category',{ createdAt: 0 , updatedAt: 0 , __v:0 , status: 0 });
+      const subCategory =await SubCategory.find({ status : true })
+      .populate('category',['name'])
+      .populate("createdBy",['name']);
       return { message: "subCategory successfully fetched", subCategory: subCategory };
   
     } catch (err) {
@@ -37,7 +41,9 @@ exports.getAllSubCategory = async ()=>{
 /********** show single subCategory ****************/
 exports.getSubCategory = async (id)=>{
   try {
-    const subCategory =await SubCategory.findOne({_id : id });
+    const subCategory =await SubCategory.findOne({_id : id })
+    .populate('category',['name'])
+    .populate("createdBy",['name']);
     if(!subCategory){ return { message: "not found check the detail", subCategory: null }}
     return { message: "subCategory successfully fetched", subCategory: subCategory };
 

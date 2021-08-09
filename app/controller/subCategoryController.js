@@ -18,6 +18,7 @@ exports.createSubCategory= {
   handler:async( request , h )=>{
     try {
       const subCat = request.payload;
+      subCat.user = request.auth.artifacts.decoded.id;
       const data = await services.createSubCategory(subCat);
       if(!data.subCategory){ return h.response({ message:data.message }).code(409)}
       return h.response(data).code(201);
