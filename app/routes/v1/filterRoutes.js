@@ -14,14 +14,19 @@ exports.plugin = {
             config: controller.getCatProduct
         },
         {
-          method: 'GET',
-          path: path+'subcategory/{id}',
-          config: controller.getSubProduct
+            method: 'GET',
+            path: path+'subcategory/{id}',
+            config: controller.getSubProduct
         },
         {
-          method: 'GET',
-          path: path+'menu/{id}',
-          config: controller.getSubCategory
+            method: 'GET',
+            path: path+'menu/{id}',
+            config: controller.getSubCategory
+        },
+        {
+            method: 'GET',
+            path: path+'{typeProduct}',
+            config: controller.typeProduct
         },
       ]
     )

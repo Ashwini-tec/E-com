@@ -93,6 +93,12 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/queryInfoRoutes"
             },
+            {
+                plugin : "../app/routes/v1/reviewRoutes"
+            },
+            {
+                plugin : "../app/routes/v1/testimonialsRoutes"
+            },
         ]
     }
 };

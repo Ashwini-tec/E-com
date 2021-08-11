@@ -13,7 +13,13 @@ exports.createProduct = async (data)=>{
         price : data.price,
         category : data.category,
         subCategory : data.subCategory,
-        createdBy : data.user
+        createdBy : data.user,
+        sku: data.sku ,
+        tags:  data.tags,
+        color: data.color ,
+        description: data.description ,
+        typeProduct:  data.typeProduct ,
+        bannerImage:  data.bannerImage 
     };
 
     const product =await Product.create(productData);

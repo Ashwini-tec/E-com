@@ -6,6 +6,7 @@ exports.userQueryInfo = async (data)=>{
     const queryData = {
         name: data.name,
         productId: data.productId,
+        productName: data.productName,
         email: data.email,
         contact: data.contact,
         message: data.message
@@ -24,7 +25,7 @@ exports.userQueryInfo = async (data)=>{
 /********** show all user query ****************/
 exports.getAllQuery = async ()=>{
     try {
-      const queryInfo =await UserQuery.find().populate('productId', ['name']);
+      const queryInfo =await UserQuery.find().populate('productId', ['name']).select({ productName: 0 });
       return { message: "queryInfo successfully fetched", queryInfo: queryInfo };
   
     } catch (err) {

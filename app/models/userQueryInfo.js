@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const userQuerySchema = new Schema({
     name: { type: String , required:true },
     productId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'product'},
+    productName: { type: String , required: true },
     contact: { type: Number , required: true },
     email: { type: String , required: true },
     message: { type: String , required: true },

@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const SubCategory = require("../models/SubCategory");
 
 
+
 /********** get all product according to category ****************/
 exports.getCatProduct = async (id)=>{
     try {
@@ -47,3 +48,20 @@ exports.getSubCategory = async (id)=>{
       return { err: err.message };
     }
   };
+
+  
+/********** get product according to typeProduct ****************/
+exports.typeProduct = async (id)=>{
+  try {
+    const typeProduct =await Product.find({ typeProduct: id })
+    .populate( 'category',['name'])
+    .populate( 'subCategory',['subCategory'])
+    .populate('createdBy',['name'])
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+    return { message: "product successfully fetched according to typeProduct", typeProduct: typeProduct };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+

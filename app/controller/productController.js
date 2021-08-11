@@ -9,10 +9,16 @@ exports.createProduct= {
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
-      image: Joi.string().required(),
+      image: Joi.array().items(Joi.string()).required(),
       price: Joi.number().required(),
       category: Joi.string().required(),
-      subCategory: Joi.string().required()
+      subCategory: Joi.string().required(),
+      sku: Joi.string().required(),
+      tags: Joi.string().required(),
+      color: Joi.string().required(),
+      description: Joi.string().required(),
+      typeProduct: Joi.string().required(),
+      bannerImage: Joi.string().required(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -108,10 +114,16 @@ exports.editProduct= {
     }),
     payload : Joi.object({
       name: Joi.string().min(3).optional(),
-      image: Joi.string().optional(),
+      image: Joi.array().items(Joi.string()).optional(),
       price: Joi.number().optional(),
       category: Joi.string().optional(),
-      subCategory: Joi.string().optional()
+      subCategory: Joi.string().optional(),
+      sku: Joi.string().optional(),
+      tags: Joi.string().optional(),
+      color: Joi.string().optional(),
+      description: Joi.string().optional(),
+      typeProduct: Joi.string().optional(),
+      bannerImage: Joi.string().optional(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
