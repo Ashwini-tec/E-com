@@ -24,7 +24,7 @@ exports.plugin = {
         },
         {
           method: 'PUT',
-          path: '/user/{id}',
+          path: '/user',
           config: usercontroller.editUser
         },
         {

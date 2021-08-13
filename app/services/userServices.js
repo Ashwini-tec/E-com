@@ -61,7 +61,12 @@ exports.editUser = async ( id ,data)=>{
         const valid = await isAlreadyExist(data.email);
         if(valid){ return { message : "user already exist" ,user : null }};
     }
-   
+    if(data.password)
+    {
+      const hash = await bcrypt.hash(data.password, 10).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
+      data.password = hash;
+    }
+
     const user =await User.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!user){ return { message : "error in updation please check the detail" , user: null }}
     return { message: "user successfully updated", user: user };

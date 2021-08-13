@@ -87,6 +87,7 @@ exports.editUser= {
   auth: 'token',
   validate: {
     payload : Joi.object({
+      name: Joi.string().optional(),
       email: Joi.string().email().optional(),
       password: Joi.string().min(5).optional()
     }),
