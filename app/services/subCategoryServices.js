@@ -1,6 +1,5 @@
 const SubCategory = require("../models/SubCategory");
 const filter = require("lodash.filter");
-const { populate } = require("../models/SubCategory");
 
 /********** create SubCategory ****************/
 exports.createSubCategory = async (data)=>{
