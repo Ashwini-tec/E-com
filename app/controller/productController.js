@@ -1,15 +1,28 @@
 const services = require("../services/productServices");
 const Joi = require('joi');
+const fs = require("fs");
 
 
 /********* create product ************/
 exports.createProduct= { 
   description: 'create product',
   auth: 'token',
+  plugins: {
+    'hapi-swagger':{
+      payloadType:'form'
+    }
+  },
+  payload: {
+    output: "stream",
+    parse: true,
+    multipart : true,
+    allow: "multipart/form-data",
+    maxBytes: 4 * 1000 * 1000
+  },
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
-      image: Joi.array().items(Joi.string()).required(),
+      image: Joi.any().meta({ swaggerType: 'file' }).description('image').required(),
       price: Joi.number().required(),
       category: Joi.string().required(),
       subCategory: Joi.string().required(),
@@ -18,7 +31,7 @@ exports.createProduct= {
       color: Joi.string().required(),
       description: Joi.string().required(),
       typeProduct: Joi.string().required(),
-      bannerImage: Joi.string().required(),
+      bannerImage: Joi.any().meta({ swaggerType: 'file' }).description('image').required(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -26,7 +39,19 @@ exports.createProduct= {
   },
   handler:async( request , h )=>{
     try {
-      const productData = request.payload;
+      const image = [];
+      let productData = request.payload;
+      let images = { image : productData.image , bannerImage : productData.bannerImage } ;
+      const imageUpload = await uploadImage(images);
+
+      if(imageUpload){
+        imageUpload.image.forEach(element => {
+          image.push(element.filename);
+        });
+        productData.image =image;
+        productData.bannerImage = imageUpload.bannerImage.filename;
+      }
+     
       productData.user = request.auth.artifacts.decoded.id;
       let data = await services.createProduct(productData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
@@ -200,3 +225,22 @@ exports.setVisibility= {
   tags: ['api'] //swagger documentation
 };
 
+/***************************** upload image in local storage *********************/
+const uploadImage = async(productData)=>{
+  const result =[];
+  if(productData.image instanceof Array){
+    for(var i = 0; i < productData["image"].length; i++) {
+      await result.push(productData["image"][i].hapi);
+      await productData["image"][i].pipe(fs.createWriteStream("./uploads/" + productData["image"][i].hapi.filename))
+    }
+  }else{
+    await result.push(productData['image'].hapi);
+    await productData["image"].pipe(fs.createWriteStream("./uploads/" + productData["image"].hapi.filename))
+  }
+
+  productData.image = result;
+  await productData["bannerImage"].pipe(fs.createWriteStream("./uploads/" + productData["bannerImage"].hapi.filename))
+  productData.bannerImage = productData['bannerImage'].hapi
+ 
+  return productData;
+}
