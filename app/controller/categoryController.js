@@ -138,3 +138,27 @@ exports.deleteCategory= {
   },
   tags: ['api'] //swagger documentation
 };
+
+
+
+/********************* admin view of all the category ****************/
+
+exports.adminView= { 
+  description: 'admin view Fetch all categories',
+  auth: 'token',
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub admin have the permission to fetch all category details'}).code(400)}
+
+      const data = await services.adminView();
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.category){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};

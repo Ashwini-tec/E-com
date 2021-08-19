@@ -103,3 +103,18 @@ const isAlreadyExist = async( name , category )=>{
     return { err: err.message };
   }
 }
+
+
+
+/********** admin view show all subCategory ****************/
+exports.adminView = async ()=>{
+  try {
+    const subCategory =await SubCategory.find()
+    .populate('category',['name'])
+    .populate("createdBy",['name']);
+    return { message: "subCategory successfully fetched", subCategory: subCategory };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};

@@ -7,6 +7,7 @@ exports.loginUser = async(user)=>{
     try {
       const email= user.email;
       const data = await User.findOne({ email : email });
+      if(!data.status){ return { message: "logined failed user unactive contact admin" ,user: null }}
       if(data){
         const password = user.password;
         const hash = await bcrypt.compare(password,data.password);

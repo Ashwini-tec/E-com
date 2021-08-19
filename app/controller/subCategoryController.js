@@ -138,3 +138,25 @@ exports.deleteSubCategory= {
   },
   tags: ['api'] //swagger documentation
 };
+
+
+
+/********* admin view get all the subCategory ************/
+exports.adminView = { 
+  description: 'admin view Fetch all subCategories',
+  auth: 'token' ,
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub admin have the permission to fetch subCategory detail'}).code(400)}
+
+      const data = await services.adminView();
+      if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};

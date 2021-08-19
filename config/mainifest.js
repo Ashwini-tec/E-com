@@ -99,6 +99,9 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/testimonialsRoutes"
             },
+            {
+                plugin : "../app/routes/v1/adminViewRoutes"
+            },
         ]
     }
 };

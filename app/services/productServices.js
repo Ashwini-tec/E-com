@@ -124,3 +124,21 @@ const isAlreadyExist = async(name)=>{
     return { err: err.message };
   }
 }
+
+
+
+/********** admin view show all product ****************/
+exports.adminView = async ()=>{
+  try {
+    const product =await Product.find()
+    .populate( 'category',['name'])
+    .populate( 'subCategory',['subCategory'])
+    .populate('createdBy',['name'])
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+    return { message: "product successfully fetched", product: product };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
