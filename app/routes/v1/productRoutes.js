@@ -37,6 +37,11 @@ exports.plugin = {
           path: '/price-visibility',
           config: controller.setVisibility
         },
+        {
+          method: 'GET',
+          path: '/uploads/{image}',
+          config: controller.image
+        },
       ]
     )
   }
