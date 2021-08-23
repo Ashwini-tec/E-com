@@ -70,8 +70,8 @@ exports.getProduct = async (id)=>{
 /********** edit product ****************/
 exports.editProduct = async ( id ,data )=>{
   try {
-    const valid = await isAlreadyExist(data.name);
-    if(valid){ return { message : "product already exist" ,product : null }};
+    // const valid = await isAlreadyExist(data.name);
+    // if(valid){ return { message : "product already exist" ,product : null }};
 
     const product =await Product.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!product){ return { message : "error in updation please check the detail" , product: null }}

@@ -135,13 +135,25 @@ exports.getProduct= {
 exports.editProduct= { 
   description: 'edit product',
   auth: 'token',
+  plugins: {
+    'hapi-swagger':{
+      payloadType:'form'
+    }
+  },
+  payload: {
+    output: "stream",
+    parse: true,
+    multipart : true,
+    allow: "multipart/form-data",
+    maxBytes: 4 * 1000 * 1000
+  },
   validate: {
     params : Joi.object({
       id: Joi.string().required(),
     }),
     payload : Joi.object({
       name: Joi.string().min(3).optional(),
-      image: Joi.array().items(Joi.string()).optional(),
+      image: Joi.any().meta({ swaggerType: 'file' }).description('image').required(),
       price: Joi.number().optional(),
       category: Joi.string().optional(),
       subCategory: Joi.string().optional(),
@@ -150,7 +162,7 @@ exports.editProduct= {
       color: Joi.string().optional(),
       description: Joi.string().optional(),
       typeProduct: Joi.string().optional(),
-      bannerImage: Joi.string().optional(),
+      bannerImage: Joi.any().meta({ swaggerType: 'file' }).description('image').required(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -158,9 +170,22 @@ exports.editProduct= {
   },
   handler:async( request , h )=>{
     try {
+
+      const image = [];
+      let productData = request.payload;
+      let images = { image : productData.image , bannerImage : productData.bannerImage } ;
+      const imageUpload = await uploadImage(images);
+
+      if(imageUpload){
+        imageUpload.image.forEach(element => {
+          image.push(element.filename);
+        });
+        productData.image =image;
+        productData.bannerImage = imageUpload.bannerImage.filename;
+      }
+     
       const id = request.params.id;
-      const detail = request.payload;
-      const data = await services.editProduct(id , detail);
+      const data = await services.editProduct(id , productData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.product){ return h.response({ message:data.message }).code(400)}
       return h.response(data).code(200);
