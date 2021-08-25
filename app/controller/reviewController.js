@@ -7,6 +7,9 @@ exports.reviewProduct= {
   description: 'review product',
   auth: 'token',
   validate: {
+    params : Joi.object({
+      productId: Joi.string().required(),
+    }),
     payload : Joi.object({
       name: Joi.string().min(3).required(),
       email: Joi.string().email().required(),
@@ -19,7 +22,7 @@ exports.reviewProduct= {
   handler: async( request , h )=>{
     try {
       const reviewData = request.payload;
-      reviewData.user = request.auth.artifacts.decoded.id;
+      reviewData.productId = request.params.productId;
       let data = await services.reviewProduct(reviewData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.review){ return h.response({ message: data.message }).code(409)}

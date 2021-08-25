@@ -8,7 +8,7 @@ const userQuerySchema = new Schema({
     contact: { type: Number , required: true },
     email: { type: String , required: true },
     message: { type: String , required: true },
-  
+    status: { type: String , default: "open", enum:["open" , "reviewed" , " dumped"]}
 },{ timestamps: true });
 
 const UserQuery = mongoose.model('userQuery', userQuerySchema);

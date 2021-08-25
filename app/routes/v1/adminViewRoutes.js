@@ -31,6 +31,11 @@ exports.plugin = {
             path: path+'user/{id}',
             config: userController.adminView
         },
+        {
+          method: 'PUT',
+          path: path+'user/{id}',
+          config: userController.editUserPermissions
+        },
       ]
     )
   }

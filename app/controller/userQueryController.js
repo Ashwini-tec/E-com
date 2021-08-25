@@ -44,6 +44,9 @@ exports.getAllQuery= {
     auth: 'token',
     handler:async( request , h )=>{
       try {
+        const role = request.auth.artifacts.decoded.role;
+        if(role == 'user'){ return h.response({ message: 'only admin and sub-admin have the permission'}).code(400)}
+
         const data = await services.getAllQuery();
         if(data.err){ return h.response({ message : data.err }).code(400)};
         return h.response(data).code(200);
@@ -86,3 +89,39 @@ exports.contactUs= {
   tags: ['api'] //swagger documentation
 };
 
+
+
+
+/********* edit a the query ************/
+exports.editQueryStatus= { 
+  description: 'edit query',
+  auth: 'token',
+  validate: {
+    params : Joi.object({
+      id: Joi.string().required(),
+    }),
+    payload : Joi.object({
+      status: Joi.string().required(),
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub-admin have the permission to update status'}).code(400)}
+
+      const id = request.params.id;
+      const detail = request.payload;
+      const data = await services.editQueryStatus(id , detail);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.queryInfo){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};

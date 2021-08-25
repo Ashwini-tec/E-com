@@ -9,7 +9,7 @@ exports.plugin = {
        /************ product review  ************/
         {
             method: 'POST',
-            path: '/review',
+            path: '/review/{productId}',
             config: controller.reviewProduct
         },
         {

@@ -14,12 +14,12 @@ exports.plugin = {
         },
         {
           method: 'GET',
-          path: '/user',
+          path: '/users',
           config: usercontroller.getAllUser
         },
         {
-          method: 'POST',
-          path: '/user/{id}',
+          method: 'GET',
+          path: '/user',
           config: usercontroller.getUser
         },
         {

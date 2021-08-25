@@ -22,6 +22,11 @@ exports.plugin = {
           path: '/contact-us',
           config: controller.contactUs
         },
+        {
+          method: 'POST',
+          path: '/query-status/{id}',
+          config: controller.editQueryStatus
+        },
       ]
     )
   }

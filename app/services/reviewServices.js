@@ -7,7 +7,7 @@ exports.reviewProduct = async (data)=>{
         name: data.name,
         email: data.email,
         message: data.message,
-        reviewedBy: data.user
+        productId: data.productId
     };
 
     const review =await Review.create(reviewData);
@@ -23,7 +23,7 @@ exports.reviewProduct = async (data)=>{
 /********** show all review ****************/
 exports.getAllReview = async ()=>{
     try {
-      const review =await Review.find({ verified: true }).populate('reviewedBy',['name']);
+      const review =await Review.find({ verified: true }).populate('productId',['name']);
       return { message: "review successfully fetched", review: review };
   
     } catch (err) {
@@ -35,7 +35,7 @@ exports.getAllReview = async ()=>{
 /********** show all review for verify ****************/
 exports.getAllReviewVerify = async ()=>{
     try {
-      const review =await Review.find({ verified: false }).populate('reviewedBy',['name']);
+      const review =await Review.find({ verified: false }).populate('productId',['name']);
       return { message: "review successfully fetched", review: review };
   
     } catch (err) {
@@ -47,7 +47,7 @@ exports.getAllReviewVerify = async ()=>{
 /********** show single review ****************/
 exports.getReview = async (id)=>{
     try {
-      const review =await Review.findOne({ _id : id }).populate("reviewedBy",{ name : 1 });
+      const review =await Review.findOne({ _id : id }).populate("productId",{ name : 1 });
       if(!review){ return { message : "review product detail not found please check the detail" , review: null }}
       return { message: "category successfully fetched", review: review };
   

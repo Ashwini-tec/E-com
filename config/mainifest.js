@@ -102,6 +102,9 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/adminViewRoutes"
             },
+            {
+                plugin : "../app/routes/v1/accessPermissionRoutes"
+            },
         ]
     }
 };

@@ -32,3 +32,16 @@ exports.getAllQuery = async ()=>{
       return { err: err.message };
     }
 };
+
+
+/********** edit query ****************/
+exports.editQueryStatus = async ( id ,data)=>{
+  try {
+    const queryInfo =await UserQuery.findByIdAndUpdate({ _id : id }, data ,{ new : true });
+    if(!queryInfo){ return { message : "error in updation please check the detail" , queryInfo: null }}
+    return { message: "query status successfully updated", queryInfo: queryInfo };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};

@@ -7,7 +7,10 @@ const userSchema = new Schema({
   contact: { type: String, required: true },
   password: { type: String , required: true},
   status: { type:Boolean , default: true },
-  role: { type: String , required: true, enum: ['user', 'admin', 'sub-admin'], default: 'user' }
+  role: { type: String , required: true, enum: ['user', 'admin', 'sub-admin'], default: 'user' },
+  permissions: [{
+    page: { type: mongoose.Schema.Types.ObjectId , ref:'access' }
+  }]
 },{ timestamps: true });
 
 const User = mongoose.model('user', userSchema);

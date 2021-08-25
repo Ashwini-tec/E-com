@@ -6,7 +6,7 @@ const reviewSchema = new Schema({
   verified: { type: Boolean , default: false },
   email: { type: String , required: true },
   message: { type: String , required: true },
-  reviewedBy : { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'user' } 
+  productId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'product'}
 },{ timestamps: true });
 
 const Review = mongoose.model('review', reviewSchema);

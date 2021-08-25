@@ -17,7 +17,8 @@ exports.createUser = async (data)=>{
         email: data.email,
         password: hash,
         contact: data.contact,
-        role: data.role
+        role: data.role,
+        permissions: data.permissions
     };
 
     const user =await User.create(userData);
@@ -33,7 +34,7 @@ exports.createUser = async (data)=>{
 /********** show all user ****************/
 exports.getAllUser = async ()=>{
   try {
-    const user =await User.find().select({password:0});
+    const user =await User.find().select({password:0}).populate('permissions.page',['name']);
     return { message: "user successfully fetched", user: user };
 
   } catch (err) {
@@ -45,7 +46,7 @@ exports.getAllUser = async ()=>{
 /********** show user ****************/
 exports.getUser = async (id)=>{
   try {
-    const user =await User.findOne({ _id : id }).select({password:0});
+    const user =await User.findOne({ _id : id }).select({password:0}).populate('permissions.page',['name']);
     if(!user){ return { message : "user not found please check the detail" , user: null }}
     return { message: "user successfully fetched", user: user };
 
@@ -92,6 +93,31 @@ exports.deleteUser = async ( id )=>{
 
 
 
+/********** admin view show user ****************/
+exports.adminView = async (id)=>{
+  try {
+    const user =await User.findOne({ _id : id }).select({password:0}).populate('permissions.page',['name']);
+    if(!user){ return { message : "user not found please check the detail" , user: null }}
+    return { message: "user successfully fetched", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+/********** edit user permission ****************/
+exports.editUserPermissions = async ( id ,data)=>{
+  try {
+    const user =await User.findByIdAndUpdate({ _id : id }, data ,{ new : true });
+    if(!user){ return { message : "error in updation please check the detail" , user: null }}
+    return { message: "user successfully updated", user: user };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
 
 
 
@@ -107,19 +133,3 @@ const isAlreadyExist = async(email)=>{
     return { err: err.message };
   }
 }
-
-
-
-/********** admin view show user ****************/
-exports.adminView = async (id)=>{
-  try {
-    const user =await User.findOne({ _id : id }).select({password:0});
-    if(!user){ return { message : "user not found please check the detail" , user: null }}
-    return { message: "user successfully fetched", user: user };
-
-  } catch (err) {
-    return { err: err.message };
-  }
-};
-
-

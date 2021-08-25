@@ -8,14 +8,14 @@ exports.plugin = {
       [
        /************ create user ************/
         {
-            method: 'POST',
-            path: '/product',
-            config: controller.createProduct
+          method: 'POST',
+          path: '/product',
+          config: controller.createProduct
         },
         {
-            method: 'GET',
-            path: '/product',
-            config: controller.getAllProduct
+          method: 'GET',
+          path: '/product',
+          config: controller.getAllProduct
         },
         {
           method: 'GET',
@@ -36,12 +36,7 @@ exports.plugin = {
           method: 'PUT',
           path: '/price-visibility',
           config: controller.setVisibility
-        },
-        {
-          method: 'GET',
-          path: '/uploads/{image}',
-          config: controller.image
-        },
+        }
       ]
     )
   }
