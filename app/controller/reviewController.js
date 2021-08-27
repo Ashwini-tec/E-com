@@ -5,7 +5,7 @@ const Joi = require('joi');
 /********* review product ************/
 exports.reviewProduct= { 
   description: 'review product',
-  auth: 'token',
+  auth: false,
   validate: {
     params : Joi.object({
       productId: Joi.string().required(),
@@ -41,7 +41,7 @@ exports.reviewProduct= {
 /********* get all the review ************/
 exports.getAllReview= { 
     description: 'Fetch all review',
-    auth: false,
+    auth: 'token',
     handler:async( request , h )=>{
       try {
         const data = await services.getAllReview();
@@ -61,7 +61,7 @@ exports.getAllReview= {
 /********* get all the unverified review ************/
 exports.getAllReviewVerify= { 
     description: 'Fetch all unverified review',
-    auth: false,
+    auth: 'token',
     handler:async( request , h )=>{
       try {
         const data = await services.getAllReviewVerify();
@@ -81,7 +81,7 @@ exports.getAllReviewVerify= {
 /********* get a the review ************/
 exports.getReview= { 
     description: 'Fetch single review',
-    auth: false ,
+    auth: 'token' ,
     validate: {
       params : Joi.object({
         id: Joi.string().required(),
