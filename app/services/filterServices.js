@@ -1,12 +1,15 @@
 const Product = require("../models/Product");
 const SubCategory = require("../models/SubCategory");
-
+const Review = require("../models/Review");
 
 
 /********** get all product according to category ****************/
 exports.getCatProduct = async (id)=>{
     try {
-      const product =await Product.find({ category: id })
+      const product =await Product.find({ $and: [
+        { category: id },
+        { status: true  }
+    ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
       .populate( 'subCategory',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 , category: 0 })
       .select({ updatedAt:0 , createdAt:0, __v:0 , priceFlag: 0} );
@@ -22,7 +25,10 @@ exports.getCatProduct = async (id)=>{
 /********** get all product according to subCategory ****************/
 exports.getSubProduct = async (id)=>{
     try {
-      const product =await Product.find({ subCategory: id })
+      const product =await Product.find({ $and: [
+        { subCategory: id  },
+        { status: true  }
+    ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
       .populate( 'subCategory',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 , category: 0 })
       .select({ updatedAt:0 , createdAt:0, __v:0 , priceFlag: 0 } );
@@ -39,7 +45,10 @@ exports.getSubProduct = async (id)=>{
 /********** get subCategory according to category ****************/
 exports.getSubCategory = async (id)=>{
     try {
-      const subCategory =await SubCategory.find({ category: id })
+      const subCategory =await SubCategory.find({  $and: [
+        { category: id  },
+        { status: true  }
+    ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
       .select({ updatedAt:0 , createdAt:0, __v:0, priceFlag: 0 } );
       return { message: "subCategory successfully fetched according to category", product: subCategory };
@@ -53,11 +62,14 @@ exports.getSubCategory = async (id)=>{
 /********** get product according to typeProduct ****************/
 exports.typeProduct = async (id)=>{
   try {
-    const typeProduct =await Product.find({ typeProduct: id })
+    const typeProduct =await Product.find({ $and: [
+      { typeProduct: id },
+      { status: true  }
+  ]})
     .populate( 'category',['name'])
     .populate( 'subCategory',['subCategory'])
     .populate('createdBy',['name'])
-    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+    .select({ priceFlag:0, updatedAt:0 , createdAt:0, __v:0 } );
     return { message: "product successfully fetched according to typeProduct", typeProduct: typeProduct };
 
   } catch (err) {
@@ -65,3 +77,20 @@ exports.typeProduct = async (id)=>{
   }
 };
 
+
+
+/********** get review according to product ****************/
+exports.reviewOfProduct = async (id)=>{
+  try {
+    const review =await Review.find({ $and: [
+      { productId: id },
+      { verified: true  }
+  ]})
+    .populate( 'productId',['name'])
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+    return { message: "review successfully fetched according to product", review: review };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};

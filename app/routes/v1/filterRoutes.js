@@ -28,6 +28,11 @@ exports.plugin = {
             path: path+'{typeProduct}',
             config: controller.typeProduct
         },
+        {
+          method: 'GET',
+          path: path+'review-product/{id}',
+          config: controller.reviewOfProduct
+      },
       ]
     )
   }
