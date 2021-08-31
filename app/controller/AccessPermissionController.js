@@ -17,7 +17,7 @@ exports.createAccess= {
   handler:async( request , h )=>{
     try {
       const role = request.auth.artifacts.decoded.role;
-      if(role == 'user'){ return h.response({ message: 'only admin and sub admin have the permission to create access permission detail'}).code(400)}
+      if(role !== 'admin'){ return h.response({ message: 'only admin have the permission to create access permission detail'}).code(400)}
 
       const accessData = request.payload;
       accessData.user = request.auth.artifacts.decoded.id;
