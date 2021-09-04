@@ -116,7 +116,10 @@ exports.setVisibility = async ( data )=>{
 
 const isAlreadyExist = async(name)=>{
   try {
-    const data = await Product.findOne({ name : name });
+    const data = await Product.findOne({ $and: [
+      { name : name },
+      { status: true  }
+  ]});
     if(data) return true ;
     else return false ;
 

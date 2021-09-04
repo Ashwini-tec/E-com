@@ -13,7 +13,7 @@ exports.userQueryInfo= {
       productId: Joi.string().required(),
       productName: Joi.string().required(),
       email: Joi.string().email().required(),
-      contact: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
+      contact: Joi.string().required(),
       message: Joi.string().min(10).max(100).required()
     }),
     failAction: (request, h, error) => {

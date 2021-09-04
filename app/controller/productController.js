@@ -9,15 +9,15 @@ exports.createProduct= {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
       image: Joi.array().items(Joi.string()).required(),
-      price: Joi.number().required(),
+      price: Joi.number().optional(),
       category: Joi.string().required(),
       subCategory: Joi.string().required(),
       sku: Joi.string().required(),
-      tags: Joi.string().required(),
+      tags: Joi.string().allow('').optional(),
       color: Joi.string().required(),
       description: Joi.string().required(),
       typeProduct: Joi.string().required(),
-      bannerImage: Joi.string().required(),
+      bannerImage: Joi.string().allow('').optional(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -118,11 +118,11 @@ exports.editProduct= {
       category: Joi.string().optional(),
       subCategory: Joi.string().optional(),
       sku: Joi.string().optional(),
-      tags: Joi.string().optional(),
+      tags: Joi.string().allow('').optional(),
       color: Joi.string().optional(),
       description: Joi.string().optional(),
       typeProduct: Joi.string().optional(),
-      bannerImage: Joi.string().optional(),
+      bannerImage: Joi.string().allow('').optional(),
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
