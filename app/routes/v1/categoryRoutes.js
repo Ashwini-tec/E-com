@@ -32,6 +32,11 @@ exports.plugin = {
           path: '/category/{id}',
           config: controller.deleteCategory
         },
+        {
+          method: 'PUT',
+          path: '/category/activate/{id}',
+          config: controller.activateCategory
+        },
       ]
     )
   }

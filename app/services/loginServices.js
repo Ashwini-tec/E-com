@@ -7,8 +7,9 @@ exports.loginUser = async(user)=>{
     try {
       const email= user.email;
       const data = await User.findOne({ email : email }).populate('permissions.page',{ name: 1 });
-      if(!data.status){ return { message: "logined failed user unactive contact admin" ,user: null }}
       if(data){
+        if(!data.status){ return { message: "logined failed user unactive contact admin" ,user: null }}
+        
         const password = user.password;
         const hash = await bcrypt.compare(password,data.password);
         if(!hash){ return { message: "logined failed password not match" ,user: null }}

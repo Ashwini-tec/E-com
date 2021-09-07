@@ -82,6 +82,35 @@ exports.deleteSubCategory = async ( id )=>{
 
 
 
+/********** activate subCategory ****************/
+exports.activateSubCategory = async ( id )=>{
+  try {
+    const subCategory =await SubCategory.findByIdAndUpdate({ _id : id }, { status: true } ,{ new : true });
+    if(!subCategory){ return { message : "error in updation please check the detail" , subCategory: null }}
+    return { message: "subCategory successfully activated", subCategory: subCategory };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+
+/********** admin view show all subCategory ****************/
+exports.adminView = async ()=>{
+  try {
+    const subCategory =await SubCategory.find({ status: false })
+    .populate('category',['name'])
+    .populate("createdBy",['name']);
+    return { message: "deactivated subCategory successfully fetched", subCategory: subCategory };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
 
 
 // check subCategory already exist or not 
@@ -103,18 +132,3 @@ const isAlreadyExist = async( name , category )=>{
     return { err: err.message };
   }
 }
-
-
-
-/********** admin view show all subCategory ****************/
-exports.adminView = async ()=>{
-  try {
-    const subCategory =await SubCategory.find()
-    .populate('category',['name'])
-    .populate("createdBy",['name']);
-    return { message: "subCategory successfully fetched", subCategory: subCategory };
-
-  } catch (err) {
-    return { err: err.message };
-  }
-};

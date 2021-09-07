@@ -27,6 +27,11 @@ exports.plugin = {
             config: productController.adminView
         },
         {
+          method: 'GET',
+          path: path+'users',
+          config: userController.getAllUser
+        },
+        {
             method: 'POST',
             path: path+'user/{id}',
             config: userController.adminView

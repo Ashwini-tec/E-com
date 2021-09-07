@@ -89,8 +89,22 @@ const isAlreadyExist = async(name)=>{
 /******************** admin view to get all the category ***********************/
 exports.adminView = async ()=>{
   try {
-    const category =await Category.find().populate('createdBy',['name']);
-    return { message: "category successfully fetched", category: category };
+    const category =await Category.find({ status: false }).populate('createdBy',['name']);
+    return { message: "deactivated category successfully fetched", category: category };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+/********** activate Category ****************/
+exports.activateCategory = async ( id )=>{
+  try {
+    const category =await Category.findByIdAndUpdate({ _id : id }, { status: true } ,{ new : true });
+    if(!category){ return { message : "error in updation please check the detail" , category: null }}
+    return { message: "category activated successfully", category: category };
 
   } catch (err) {
     return { err: err.message };

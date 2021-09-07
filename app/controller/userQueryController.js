@@ -94,7 +94,7 @@ exports.contactUs= {
 
 /********* edit a the query ************/
 exports.editQueryStatus= { 
-  description: 'edit query',
+  description: 'edit query status for admin',
   auth: 'token',
   validate: {
     params : Joi.object({

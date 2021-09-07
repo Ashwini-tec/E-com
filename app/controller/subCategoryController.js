@@ -112,6 +112,8 @@ exports.editSubCategory= {
 };
 
 
+
+
 /********* delete subCategory ************/
 exports.deleteSubCategory= { 
   description: 'delete subCategory',
@@ -141,6 +143,41 @@ exports.deleteSubCategory= {
 
 
 
+
+/********* activate deleted subCategory ************/
+exports.activateSubCategory= { 
+  description: 'activate deleted subCategory',
+  auth: 'token',
+  validate: {
+    params : Joi.object({
+      id: Joi.string().required(),
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub admin have the permission to activate deleted subSategory'}).code(400)}
+
+      const id = request.params.id;
+      const data = await services.activateSubCategory(id);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.subCategory){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+
+
 /********* admin view get all the subCategory ************/
 exports.adminView = { 
   description: 'admin view Fetch all subCategories',
@@ -160,3 +197,4 @@ exports.adminView = {
   },
   tags: ['api'] //swagger documentation
 };
+

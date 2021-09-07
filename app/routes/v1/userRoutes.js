@@ -1,4 +1,4 @@
-const usercontroller = require("../../controller/userController");
+const userController = require("../../controller/userController");
 
 exports.plugin = { 
   pkg : require("../../../package.json"),
@@ -10,27 +10,22 @@ exports.plugin = {
         {
           method: 'POST',
           path: '/user',
-          config: usercontroller.createUser
-        },
-        {
-          method: 'GET',
-          path: '/users',
-          config: usercontroller.getAllUser
+          config: userController.createUser
         },
         {
           method: 'GET',
           path: '/user',
-          config: usercontroller.getUser
+          config: userController.getUser
         },
         {
           method: 'PUT',
           path: '/user',
-          config: usercontroller.editUser
+          config: userController.editUser
         },
         {
           method: 'DELETE',
           path: '/user/{id}',
-          config: usercontroller.deleteUser
+          config: userController.deleteUser
         },
       ]
     )
