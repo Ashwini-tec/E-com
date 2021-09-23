@@ -60,10 +60,6 @@ exports.getUser = async (id)=>{
 /********** edit user ****************/
 exports.editUser = async ( id ,data)=>{
   try {
-    if(data.email){
-        const valid = await isAlreadyExist(data.email);
-        if(valid){ return { message : "user already exist" ,user : null }};
-    }
     if(data.password)
     {
       const hash = await bcrypt.hash(data.password, 10).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
