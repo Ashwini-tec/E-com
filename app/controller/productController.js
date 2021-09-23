@@ -15,7 +15,7 @@ exports.createProduct= {
       sku: Joi.string().required(),
       tags: Joi.string().allow('').optional(),
       color: Joi.string().required(),
-      description: Joi.string().required(),
+      description: Joi.string().allow(''),
       typeProduct: Joi.string().required(),
       bannerImage: Joi.string().allow('').optional(),
     }),

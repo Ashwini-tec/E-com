@@ -8,6 +8,7 @@ exports.createCategory = async (data)=>{
 
     const categoryData = {
         name: data.name,
+        description: data.description,
         createdBy: data.user
     };
 

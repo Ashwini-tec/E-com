@@ -9,6 +9,7 @@ exports.createCategory= {
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
+      description: Joi.string().min(10).max(100).required()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
@@ -89,6 +90,7 @@ exports.editCategory= {
     }),
     payload : Joi.object({
       name: Joi.string().min(3).required(),
+      description: Joi.string().min(10).max(100).optional()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();

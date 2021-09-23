@@ -1,11 +1,18 @@
 
 const Product = require("../models/Product");
+const Category = require("../models/Category");
 
 /********** create product ****************/
 exports.createProduct = async (data)=>{
   try {
     const valid = await isAlreadyExist(data.name);
     if(valid){ return { message : "product already exist" ,product : null }};
+
+    if(data.description == ''){ 
+      const categoryId = data.category;
+      const categoryData = await Category.findOne({ _id: categoryId });
+      data.description = categoryData.description; 
+    }
 
     const productData = {
         name: data.name,
