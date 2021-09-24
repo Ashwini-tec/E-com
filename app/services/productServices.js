@@ -8,12 +8,6 @@ exports.createProduct = async (data)=>{
     const valid = await isAlreadyExist(data.name);
     if(valid){ return { message : "product already exist" ,product : null }};
 
-    if(data.description == ''){ 
-      const categoryId = data.category;
-      const categoryData = await Category.findOne({ _id: categoryId });
-      data.description = categoryData.description; 
-    }
-
     const productData = {
         name: data.name,
         image : data.image,
@@ -64,6 +58,13 @@ exports.getProduct = async (id)=>{
     .populate('createdBy',['name'])
     .select({ updatedAt:0 , createdAt:0, __v:0 } );
     if(!product){ return { message: "product not found check the detail", product: null }}
+
+    if(!product.description){ 
+      const categoryId = product.category;
+      const categoryData = await Category.findOne({ _id: categoryId });
+      product.description = categoryData.description; 
+    }
+
     return { message: "product successfully fetched", product: product };
 
   } catch (err) {
@@ -77,11 +78,6 @@ exports.getProduct = async (id)=>{
 /********** edit product ****************/
 exports.editProduct = async ( id ,data )=>{
   try {
-    if(data.description == ''){ 
-      const categoryId = data.category;
-      const categoryData = await Category.findOne({ _id: categoryId });
-      data.description = categoryData.description; 
-    }
 
     const product =await Product.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!product){ return { message : "error in updation please check the detail" , product: null }}
