@@ -50,9 +50,8 @@ exports.getAllProduct= {
 
         await data.product.find( item =>{
           if(!item.priceFlag){
-            return ( item.price = undefined , item.priceFlag = undefined );  
+            return ( item.price = undefined );  
           }
-          return item.priceFlag = undefined ;
         });
 
         if(data.err){ return h.response({ message : data.err }).code(400)};
@@ -91,7 +90,6 @@ exports.getProduct= {
       if(!priceFlag){
         data.product.price = undefined
       }
-      data.product.priceFlag = undefined ;
       return h.response(data).code(200);
 
     } catch (error) {
