@@ -46,7 +46,7 @@ exports.fetchAllAccess = async ()=>{
 exports.fetchAccess = async (id)=>{
   try {
     const accessPermissions =await AccessPermissions.findOne({ _id : id }).populate("createdBy",{ name : 1 });
-    if(!accessPermissions){ return { message : "data not found please check the detail" , accessPermissions: null }}
+    if(!accessPermissions){ return { message : "data not found" , accessPermissions: null }}
     return { message: "data successfully fetched", accessPermissions: accessPermissions };
 
   } catch (err) {

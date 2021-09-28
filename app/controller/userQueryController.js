@@ -24,8 +24,13 @@ exports.userQueryInfo= {
     try {
       const queryData = request.payload;
       const data = await services.userQueryInfo(queryData);
-      if(data){ await mailer.sendMail(queryData) }
       if(data.err){ return h.response({ message : data.err }).code(400)};
+
+      if(data){ 
+        let mail = await mailer.sendMail(queryData)
+        data.mailInfo = mail;
+      }
+      
       return h.response(data).code(201);
 
     } catch (error) {
@@ -79,8 +84,8 @@ exports.contactUs= {
   handler:async( request , h )=>{
     try {
       const queryData = request.payload;
-      await mailer.contactMail(queryData);
-      return h.response({ message: " mail successfully send "}).code(200);
+      const mail = await mailer.contactMail(queryData);
+      return h.response({ message: mail.message , status: mail.sent }).code(200);
 
     } catch (error) {
       return h.response( error.message ).code(500);

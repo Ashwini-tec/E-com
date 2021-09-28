@@ -43,7 +43,7 @@ exports.getSubCategory = async (id)=>{
     const subCategory =await SubCategory.findOne({_id : id })
     .populate('category',['name'])
     .populate("createdBy",['name']);
-    if(!subCategory){ return { message: "not found check the detail", subCategory: null }}
+    if(!subCategory){ return { message: "data not found", subCategory: null }}
     return { message: "subCategory successfully fetched", subCategory: subCategory };
 
   } catch (err) {

@@ -47,7 +47,7 @@ exports.getAllUser = async ()=>{
 exports.getUser = async (id)=>{
   try {
     const user =await User.findOne({ _id : id }).select({password:0}).populate('permissions.page',['name']);
-    if(!user){ return { message : "user not found please check the detail" , user: null }}
+    if(!user){ return { message : "user not found" , user: null }}
     return { message: "user successfully fetched", user: user };
 
   } catch (err) {
@@ -93,7 +93,7 @@ exports.deleteUser = async ( id )=>{
 exports.adminView = async (id)=>{
   try {
     const user =await User.findOne({ _id : id }).select({password:0}).populate('permissions.page',['name']);
-    if(!user){ return { message : "user not found please check the detail" , user: null }}
+    if(!user){ return { message : "user not found" , user: null }}
     return { message: "user successfully fetched", user: user };
 
   } catch (err) {

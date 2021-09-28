@@ -57,7 +57,7 @@ exports.getProduct = async (id)=>{
     .populate( 'subCategory',['subCategory'])
     .populate('createdBy',['name'])
     .select({ updatedAt:0 , createdAt:0, __v:0 } );
-    if(!product){ return { message: "product not found check the detail", product: null }}
+    if(!product){ return { message: "product not found", product: null }}
 
     if(!product.description){ 
       const categoryId = product.category;

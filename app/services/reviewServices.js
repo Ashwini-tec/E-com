@@ -48,7 +48,7 @@ exports.getAllReviewVerify = async ()=>{
 exports.getReview = async (id)=>{
     try {
       const review =await Review.findOne({ _id : id }).populate("productId",{ name : 1 });
-      if(!review){ return { message : "review product detail not found please check the detail" , review: null }}
+      if(!review){ return { message : "review product detail not found" , review: null }}
       return { message: "category successfully fetched", review: review };
   
     } catch (err) {

@@ -9,11 +9,12 @@ exports.getCatProduct = async (id)=>{
       const product =await Product.find({ $and: [
         { category: id },
         { status: true  }
-    ]})
+      ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
       .populate( 'subCategory',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 , category: 0 })
-      .select({ updatedAt:0 , createdAt:0, __v:0 , priceFlag: 0} );
+      .select({ updatedAt:0 , createdAt:0, __v:0 } );
 
+      if(!product){ return { message: "data not found" }}
       return { message: "product successfully fetched according to category", product: product };
   
     } catch (err) {
@@ -28,10 +29,12 @@ exports.getSubProduct = async (id)=>{
       const product =await Product.find({ $and: [
         { subCategory: id  },
         { status: true  }
-    ]})
+      ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
       .populate( 'subCategory',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 , category: 0 })
-      .select({ updatedAt:0 , createdAt:0, __v:0 , priceFlag: 0 } );
+      .select({ updatedAt:0 , createdAt:0, __v:0 } );
+
+      if(!product){ return { message: "data not found" }}
       return { message: "product successfully fetched according to subCategory", product: product };
   
     } catch (err) {
@@ -48,9 +51,11 @@ exports.getSubCategory = async (id)=>{
       const subCategory =await SubCategory.find({  $and: [
         { category: id  },
         { status: true  }
-    ]})
+      ]})
       .populate( 'category',{ updatedAt:0 , createdAt:0, __v:0 , status: 0 })
-      .select({ updatedAt:0 , createdAt:0, __v:0, priceFlag: 0 } );
+      .select({ updatedAt:0 , createdAt:0, __v:0 } );
+
+      if(!subCategory){ return { message: "data not found" }}
       return { message: "subCategory successfully fetched according to category", product: subCategory };
   
     } catch (err) {
@@ -69,7 +74,9 @@ exports.typeProduct = async (id)=>{
     .populate( 'category',['name'])
     .populate( 'subCategory',['subCategory'])
     .populate('createdBy',['name'])
-    .select({ priceFlag:0, updatedAt:0 , createdAt:0, __v:0 } );
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+
+    if(!typeProduct){ return { message: "data not found" }}
     return { message: "product successfully fetched according to typeProduct", typeProduct: typeProduct };
 
   } catch (err) {
@@ -88,6 +95,8 @@ exports.reviewOfProduct = async (id)=>{
   ]})
     .populate( 'productId',['name'])
     .select({ updatedAt:0 , createdAt:0, __v:0 } );
+
+    if(!review){ return { message: "data not found" }}
     return { message: "review successfully fetched according to product", review: review };
 
   } catch (err) {

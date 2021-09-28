@@ -37,7 +37,7 @@ exports.getAllCategory = async ()=>{
 exports.getCategory = async (id)=>{
   try {
     const category =await Category.findOne({ _id : id }).populate("createdBy",{ name : 1 });
-    if(!category){ return { message : "category not found please check the detail" , category: null }}
+    if(!category){ return { message : "category not found" , category: null }}
     return { message: "category successfully fetched", category: category };
 
   } catch (err) {

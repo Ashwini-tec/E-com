@@ -215,9 +215,8 @@ exports.adminView= {
 
       await data.product.find( item =>{
         if(!item.priceFlag){
-          return ( item.price = undefined , item.priceFlag = undefined );  
+          return ( item.price = undefined );  
         }
-        return item.priceFlag = undefined ;
       });
 
       if(data.err){ return h.response({ message : data.err }).code(400)};
