@@ -18,6 +18,11 @@ exports.plugin = {
             config: controller.getAllTestimonials
         },
         {
+            method: 'GET',
+            path: '/testimonials/{id}',
+            config: controller.getSingleTestimonials
+        },
+        {
             method: 'PUT',
             path: '/testimonials/{id}',
             config: controller.editTestimonials

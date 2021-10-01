@@ -89,13 +89,45 @@ exports.getSubCategory= {
 
 
   
+/********* get all the product according to typeProduct and category  ************/
+exports.typeProductAndCategory= { 
+  description: 'filter product according to typeProduct and category',
+  auth: false,
+  validate: {
+      params : Joi.object({
+        typeProduct: Joi.string().required(),
+        category: Joi.string().required()
+      }),
+      failAction: (request, h, error) => {
+        return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+      }
+    },
+  handler:async( request , h )=>{
+    try {
+        const id = request.params.typeProduct ;
+        const catid = request.params.category ;
+        const data = await services.typeProductAndCategory(id , catid);
+        if(data.err){ return h.response({ message : data.err }).code(400)};
+        if(!data.typeProduct){ return h.response({ message:data.message }).code(400)}
+        return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+ 
 /********* get all the product according to typeProduct ************/
 exports.typeProduct= { 
   description: 'filter product according to typeProduct',
   auth: false,
   validate: {
       params : Joi.object({
-        typeProduct: Joi.string().required(),
+        typeProduct: Joi.string().required()
       }),
       failAction: (request, h, error) => {
         return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();

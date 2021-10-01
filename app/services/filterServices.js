@@ -65,12 +65,34 @@ exports.getSubCategory = async (id)=>{
 
   
 /********** get product according to typeProduct ****************/
+exports.typeProductAndCategory = async (id , catid)=>{
+  try {
+    const typeProduct =await Product.find({ $and: [
+      { category: catid },
+      { typeProduct: id },
+      { status: true  }
+    ]})
+    .populate( 'category',['name'])
+    .populate( 'subCategory',['subCategory'])
+    .populate('createdBy',['name'])
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+
+    if(!typeProduct){ return { message: "data not found" }}
+    return { message: "product successfully fetched according to typeProduct", typeProduct: typeProduct };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+ 
+/********** get product according to typeProduct ****************/
 exports.typeProduct = async (id)=>{
   try {
     const typeProduct =await Product.find({ $and: [
       { typeProduct: id },
       { status: true  }
-  ]})
+    ]})
     .populate( 'category',['name'])
     .populate( 'subCategory',['subCategory'])
     .populate('createdBy',['name'])
@@ -92,7 +114,7 @@ exports.reviewOfProduct = async (id)=>{
     const review =await Review.find({ $and: [
       { productId: id },
       { verified: true  }
-  ]})
+    ]})
     .populate( 'productId',['name'])
     .select({ updatedAt:0 , createdAt:0, __v:0 } );
 

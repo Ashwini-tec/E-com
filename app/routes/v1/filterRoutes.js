@@ -25,9 +25,14 @@ exports.plugin = {
         },
         {
             method: 'GET',
-            path: path+'{typeProduct}',
-            config: controller.typeProduct
+            path: path+'{typeProduct}/{category}',
+            config: controller.typeProductAndCategory
         },
+        {
+          method: 'GET',
+          path: path+'{typeProduct}',
+          config: controller.typeProduct
+      },
         {
           method: 'GET',
           path: path+'review-product/{id}',

@@ -31,6 +31,20 @@ exports.getAllTestimonials = async ()=>{
   };
 
 
+
+/***************** fetch single testimonials by id ****************/
+exports.getSingleTestimonials = async (id) =>{
+  try {
+    const testimonials = await Testimonials.findOne({ _id: id });
+    if(!testimonials){ return { message: 'data not found'}};
+    return { message: 'testinonial successfully fetched', testimonials: testimonials };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+}
+
+
 /********** edit testimonials ****************/
 exports.editTestimonials = async ( id ,data)=>{
     try {
