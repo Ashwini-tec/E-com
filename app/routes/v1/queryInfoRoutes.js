@@ -18,6 +18,11 @@ exports.plugin = {
           config: controller.getAllQuery
         },
         {
+          method: 'DELETE',
+          path: '/query/{id}',
+          config: controller.deleteQuery
+        },
+        {
           method: 'POST',
           path: '/contact-us',
           config: controller.contactUs

@@ -10,7 +10,7 @@ exports.createUser= {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
       email: Joi.string().email().required(),
-      contact: Joi.string().required(),
+      contact: Joi.number().required(),
       password: Joi.string().min(5).required(),
       role: Joi.string().optional(),
       permissions: Joi.array().items({page:Joi.string()}).required()
@@ -94,7 +94,7 @@ exports.editUser= {
       name: Joi.string().optional(),
       email: Joi.string().email().optional(),
       password: Joi.string().min(5).optional(),
-      contact: Joi.string().optional()
+      contact: Joi.number().optional()
     }),
     failAction: (request, h, error) => {
       return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();

@@ -45,3 +45,17 @@ exports.editQueryStatus = async ( id ,data)=>{
     return { err: err.message };
   }
 };
+
+
+
+/********** delete query ****************/
+exports.deleteQuery = async ( id )=>{
+  try {
+    const queryInfo =await UserQuery.findOneAndDelete({ _id : id });
+    if(!queryInfo){ return { message : "error on delete please check the detail" , queryInfo: null }}
+    return { message: "query status successfully deleted", queryInfo: queryInfo };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
