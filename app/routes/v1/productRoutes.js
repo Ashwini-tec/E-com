@@ -36,6 +36,16 @@ exports.plugin = {
           method: 'PUT',
           path: '/price-visibility',
           config: controller.setVisibility
+        },
+        {
+          method: 'PUT',
+          path: '/product/featured/{id}',
+          config: controller.isFeaturedProduct
+        },
+        {
+          method: 'GET',
+          path: '/product/getFeatured',
+          config: controller.getFeaturedProduct
         }
       ]
     )

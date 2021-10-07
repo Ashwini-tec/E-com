@@ -229,3 +229,62 @@ exports.adminView= {
   },
   tags: ['api'] //swagger documentation
 };
+
+
+
+/********* mark product featured or remove from featured ************/
+exports.isFeaturedProduct= { 
+  description: 'featured product',
+  auth: 'token',
+  validate: {
+    params : Joi.object({
+      id: Joi.string().required(),
+    }),
+    payload : Joi.object({
+      isFeatured: Joi.boolean().required()
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {     
+      const id = request.params.id;
+      const detail = request.payload;
+      const data = await services.isFeaturedProduct(id , detail);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.product){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+/********* get featured product ************/
+exports.getFeaturedProduct= { 
+  description: 'Fetch featured product',
+  auth: false ,
+  handler:async( request , h )=>{
+    try {
+      const id = request.params.id;
+      const data = await services.getFeaturedProduct();
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.product){ return h.response({ message:data.message }).code(400)}
+
+      const priceFlag = data.product.priceFlag;
+      if(!priceFlag){
+        data.product.price = undefined
+      }
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};

@@ -118,6 +118,41 @@ exports.setVisibility = async ( data )=>{
 
 
 
+
+/**********  featured product ****************/
+exports.isFeaturedProduct = async ( id ,data )=>{
+  try {
+
+    const product =await Product.findByIdAndUpdate({ _id : id }, data ,{ new : true });
+    if(!product){ return { message : "error in updation please check the detail" , product: null }}
+    return { message: "product successfully updated", product: product };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+/********** show all product ****************/
+exports.getFeaturedProduct = async ()=>{
+  try {
+    const product =await Product.find({ $and: [
+      { isFeatured : true },
+      { status: true  }
+  ]})
+    .populate( 'category',['name'])
+    .populate( 'subCategory',['subCategory'])
+    .populate('createdBy',['name'])
+    .select({ updatedAt:0 , createdAt:0, __v:0 } );
+    return { message: "product successfully fetched", product: product };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
 // check category already exist or not 
 
 const isAlreadyExist = async(name)=>{

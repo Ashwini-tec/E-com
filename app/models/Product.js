@@ -9,6 +9,7 @@ const productSchema = new Schema({
   sku: { type: String , required: false },
   rating : { type: Number , required: true, enum: [1, 2, 3, 4, 5] , default: 1 },
   tags: { type: String , required: false },
+  isFeatured: { type: Boolean , default: false },
   color: { type: String , required: false },
   description: { type: String , required: false },
   typeProduct: { type: String , required: true },
