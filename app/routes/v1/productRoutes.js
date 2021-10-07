@@ -38,7 +38,7 @@ exports.plugin = {
           config: controller.setVisibility
         },
         {
-          method: 'PUT',
+          method: 'POST',
           path: '/product/featured/{id}',
           config: controller.isFeaturedProduct
         },
