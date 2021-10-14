@@ -105,6 +105,9 @@ internals.manifest = {
             {
                 plugin : "../app/routes/v1/accessPermissionRoutes"
             },
+            {
+                plugin : "../app/routes/v1/joinUsRoutes"
+            },
         ]
     }
 };

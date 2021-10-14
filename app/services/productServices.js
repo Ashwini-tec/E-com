@@ -94,7 +94,7 @@ exports.deleteProduct = async ( id )=>{
   try {
     const product =await Product.findByIdAndUpdate({ _id : id },{ status: false },{ new : true });
     if(!product){ return { message : "error in delete please check the detail" , product: null }}
-    return { message: "category successfully deleted", product: product };
+    return { message: "product successfully deleted", product: product };
 
   } catch (err) {
     return { err: err.message };
