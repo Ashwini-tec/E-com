@@ -24,13 +24,23 @@ exports.plugin = {
         },
         {
           method: 'POST',
+          path: '/query-status/{id}',
+          config: controller.editQueryStatus
+        },
+        {
+          method: 'POST',
           path: '/contact-us',
           config: controller.contactUs
         },
         {
-          method: 'POST',
-          path: '/query-status/{id}',
-          config: controller.editQueryStatus
+          method: 'GET',
+          path: '/contact-us',
+          config: controller.getAllContactDetail
+        },
+        {
+          method: 'DELETE',
+          path: '/contact-us/{id}',
+          config: controller.deleteContactUsDetail
         },
       ]
     )

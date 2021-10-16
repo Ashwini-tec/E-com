@@ -64,38 +64,6 @@ exports.getAllQuery= {
   };
 
 
-/************************ contact us via mail *********************/
-
-exports.contactUs= { 
-  description: 'contact us',
-  auth: false,
-  validate: {
-    payload : Joi.object({
-      name: Joi.string().min(3).required(),
-      email: Joi.string().email().required(),
-      subject: Joi.string().required(),
-      mobile: Joi.number().required(),
-      message: Joi.string().min(10).max(100).required()
-    }),
-    failAction: (request, h, error) => {
-      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
-    }
-  },
-  handler:async( request , h )=>{
-    try {
-      const queryData = request.payload;
-      const mail = await mailer.contactMail(queryData);
-      return h.response({ message: mail.message , status: mail.sent }).code(200);
-
-    } catch (error) {
-      return h.response( error.message ).code(500);
-    }
-  },
-  tags: ['api'] //swagger documentation
-};
-
-
-
 
 /********* edit a the query ************/
 exports.editQueryStatus= { 
@@ -134,7 +102,7 @@ exports.editQueryStatus= {
 
 /********* delete user query ************/
 exports.deleteQuery= { 
-  description: 'edit query status for admin',
+  description: 'delete query status by admin',
   auth: 'token',
   validate: {
     params : Joi.object({
@@ -150,7 +118,6 @@ exports.deleteQuery= {
       if(role == 'user'){ return h.response({ message: 'only admin and sub-admin have the permission to update status'}).code(400)}
 
       const id = request.params.id;
-      const detail = request.payload;
       const data = await services.deleteQuery(id);
       if(data.err){ return h.response({ message : data.err }).code(400)};
       if(!data.queryInfo){ return h.response({ message:data.message }).code(400)}
@@ -162,3 +129,99 @@ exports.deleteQuery= {
   },
   tags: ['api'] //swagger documentation
 };
+
+
+
+/************************ contact us via mail *********************/
+
+exports.contactUs= { 
+  description: 'contact us',
+  auth: false,
+  validate: {
+    payload : Joi.object({
+      name: Joi.string().min(3).required(),
+      email: Joi.string().email().required(),
+      subject: Joi.string().required(),
+      mobile: Joi.number().required(),
+      message: Joi.string().min(10).max(100).required()
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const queryData = request.payload;
+      const data = await services.contactMail(queryData);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+
+      if(data){ 
+        let mail = await mailer.contactMail(queryData)
+        data.mailInfo = mail;
+      }
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+
+
+/********* get all the contsct us detail ************/
+exports.getAllContactDetail= { 
+  description: 'Fetch all contsct us detail',
+  auth: 'token',
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub-admin have the permission'}).code(400)}
+
+      const data = await services.getAllContactDetail();
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
+
+/********* delete user contact us detail ************/
+exports.deleteContactUsDetail = { 
+  description: 'contact us detail delete',
+  auth: 'token',
+  validate: {
+    params : Joi.object({
+      id: Joi.string().required(),
+    }),
+    failAction: (request, h, error) => {
+      return h.response({ message: error.details[0].message.replace(/['"]+/g, '') }).code(400).takeover();
+    }
+  },
+  handler:async( request , h )=>{
+    try {
+      const role = request.auth.artifacts.decoded.role;
+      if(role == 'user'){ return h.response({ message: 'only admin and sub-admin have the permission to update status'}).code(400)}
+
+      const id = request.params.id;
+      const data = await services.deleteContactUsDeatil(id);
+      if(data.err){ return h.response({ message : data.err }).code(400)};
+      if(!data.queryInfo){ return h.response({ message:data.message }).code(400)}
+      return h.response(data).code(200);
+
+    } catch (error) {
+      return h.response( error.message ).code(500);
+    }
+  },
+  tags: ['api'] //swagger documentation
+};
+
+
