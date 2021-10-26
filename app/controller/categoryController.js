@@ -9,7 +9,7 @@ exports.createCategory= {
   validate: {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
-      description: Joi.string().min(10).required(),
+      description: Joi.string().allow(''),
       image: Joi.array().items(Joi.string().allow('')).allow(''),
     }),
     failAction: (request, h, error) => {
@@ -91,7 +91,7 @@ exports.editCategory= {
     }),
     payload : Joi.object({
       name: Joi.string().min(3).required(),
-      description: Joi.string().min(10).optional(),
+      description: Joi.string().allow(''),
       image: Joi.array().items(Joi.string().allow('')).allow('')
     }),
     failAction: (request, h, error) => {

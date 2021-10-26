@@ -50,6 +50,9 @@ exports.getCategory = async (id)=>{
 /********** edit category ****************/
 exports.editCategory = async ( id ,data)=>{
   try {
+    const valid = await isAlreadyExistForId(data.name, id);
+    if(valid){ return { message : "category already exist" ,category : null }};
+
     const category =await Category.findByIdAndUpdate({ _id : id }, data ,{ new : true });
     if(!category){ return { message : "error in updation please check the detail" , category: null }}
     return { message: "category successfully updated", category: category };
@@ -71,6 +74,29 @@ exports.deleteCategory = async ( id )=>{
     return { err: err.message };
   }
 };
+
+
+
+/********************** check data is already exist or not while editing ****************/
+const isAlreadyExistForId = async(name , id )=>{
+  try {
+    const data = await Category.findOne({ $and: [
+      { _id: id },
+      { name : name }
+    ]});
+
+    if(data){
+      return false;
+    }else
+    {
+      const check = await isAlreadyExist(name);
+      if(check) return true 
+      else return false 
+    }
+  } catch (err) {
+    return { err: err.message };
+  }
+}
 
 
 

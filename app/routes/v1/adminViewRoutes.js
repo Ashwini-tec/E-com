@@ -41,6 +41,11 @@ exports.plugin = {
           path: path+'user/{id}',
           config: userController.editUserPermissions
         },
+        {
+          method: 'DELETE',
+          path: path+'product/deleteProduct/{id}',
+          config: productController.deleteProductPermanent
+        }
       ]
     )
   }

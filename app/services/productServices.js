@@ -186,3 +186,17 @@ exports.adminView = async ()=>{
   }
 };
 
+
+/********** delete product admin view and delete ****************/
+exports.deleteProductPermanent = async ( id )=>{
+  try {
+    const product =await Product.findByIdAndDelete({ _id : id });
+    if(!product){ return { message : "error in delete please check the detail" , product: null }}
+    return { message: "product successfully deleted", product: product };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+

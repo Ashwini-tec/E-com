@@ -62,6 +62,22 @@ exports.deleteQuery = async ( id )=>{
 };
 
 
+
+/********** fetct by id user query ****************/
+exports.fetchAQueryInfo = async ( id )=>{
+  try {
+    const queryInfo =await UserQuery.findOne({ _id : id });
+    if(!queryInfo){ return { message : "data not found or in correct id" , queryInfo: null }}
+    return { message: "user query successfully fetched", queryInfo: queryInfo };
+
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
+
+
+
 /********** user contact us info ****************/
 exports.contactMail = async (data)=>{
   try {

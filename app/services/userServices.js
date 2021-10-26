@@ -60,6 +60,9 @@ exports.getUser = async (id)=>{
 /********** edit user ****************/
 exports.editUser = async ( id ,data)=>{
   try {
+    const valid = await isAlreadyExistForId(data.email, id);
+    if(valid){ return { message : "user already exist" ,user : null }};
+
     if(data.password)
     {
       const hash = await bcrypt.hash(data.password, 10).then((hash)=> { return hash }).catch((err)=>{ console.log(err.message) });
@@ -115,6 +118,28 @@ exports.editUserPermissions = async ( id ,data)=>{
   }
 };
 
+
+
+
+/********************** check data is already exist or not while editing ****************/
+const isAlreadyExistForId = async(email , id )=>{
+  try {
+    const data = await User.findOne({ $and: [
+      { _id: id },
+      { email : email }
+    ]});
+    if(data){
+      return false;
+    }else
+    {
+      const check = await isAlreadyExist(email);
+      if(check) return true 
+      else return false 
+    }
+  } catch (err) {
+    return { err: err.message };
+  }
+}
 
 
 // check user already exist or not 

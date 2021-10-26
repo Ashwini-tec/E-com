@@ -23,10 +23,17 @@ exports.plugin = {
           config: controller.deleteQuery
         },
         {
+          method: 'GET',
+          path: '/query/{id}',
+          config: controller.fetchAQueryInfo
+        },
+        {
           method: 'POST',
           path: '/query-status/{id}',
           config: controller.editQueryStatus
         },
+
+        /******************************  contacts us routes ********************/
         {
           method: 'POST',
           path: '/contact-us',
