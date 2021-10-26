@@ -1,6 +1,6 @@
 const services = require("../services/userQueryInfoServices");
 const Joi = require('joi');
-const mailer = require('../../lib/mail')
+const mailer = require('../../lib/mail');
 
 
 /********* user query info send mail to admin and save it to data base ************/
@@ -11,6 +11,7 @@ exports.userQueryInfo= {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
       productId: Joi.string().required(),
+      productImage: Joi.string().required(),
       productName: Joi.string().required(),
       email: Joi.string().email().required(),
       contact: Joi.number().required(),
@@ -28,7 +29,13 @@ exports.userQueryInfo= {
 
       if(data){ 
         let mail = await mailer.sendMail(queryData)
-        data.mailInfo = mail;
+        const wellcomeMessage = "Thank You For Generate Your Query We Will Get Back Too You Soon"
+        queryData.wellcomeMessage = wellcomeMessage ;
+        if(mail.sent){
+          let confirmationMail = await mailer.userConfirmationMail(queryData);
+          data.confirmationMail = confirmationMail;
+          data.mailInfo = mail;
+        }
       }
       
       return h.response(data).code(201);
@@ -189,7 +196,13 @@ exports.contactUs= {
 
       if(data){ 
         let mail = await mailer.contactMail(queryData)
-        data.mailInfo = mail;
+        const wellcomeMessage = "Thank You For Contacting Us We Will Get Back To You Soon"
+        queryData.wellcomeMessage = wellcomeMessage ;
+        if(mail.sent){
+          let confirmationMail = await mailer.userConfirmationMail(queryData);
+          data.confirmationMail = confirmationMail;
+          data.mailInfo = mail;
+        }
       }
       return h.response(data).code(200);
 
@@ -206,7 +219,7 @@ exports.contactUs= {
 
 /********* get all the contsct us detail ************/
 exports.getAllContactDetail= { 
-  description: 'Fetch all contsct us detail',
+  description: 'Fetch all contact us detail',
   auth: 'token',
   handler:async( request , h )=>{
     try {

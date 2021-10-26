@@ -1,5 +1,7 @@
 const services = require("../services/joinUsServices");
 const Joi = require('joi');
+const mailer = require('../../lib/mail')
+
 
 /********* create Join us detail ************/
 exports.joinUsDetail= { 
@@ -19,6 +21,18 @@ exports.joinUsDetail= {
       const joinUsData = request.payload;
       let data = await services.joinUsDetail(joinUsData);
       if(data.err){ return h.response({ message : data.err }).code(400)};
+
+      if(data){ 
+        let mail = await mailer.joinUsMail(joinUsData)
+        const wellcomeMessage = "Thank You For Your Interest In Our Business We Will Get Back To You Soon"
+        joinUsData.wellcomeMessage = wellcomeMessage ;
+        if(mail.sent){
+          let confirmationMail = await mailer.userConfirmationMail(joinUsData);
+          data.confirmationMail = confirmationMail;
+          data.mailInfo = mail;
+        }
+      }
+
       if(!data.detail){ return h.response({ message:data.message }).code(409)}
       return h.response(data).code(201);
 
