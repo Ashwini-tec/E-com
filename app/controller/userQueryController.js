@@ -11,7 +11,7 @@ exports.userQueryInfo= {
     payload : Joi.object({
       name: Joi.string().min(3).required(),
       productId: Joi.string().required(),
-      productImage: Joi.string().required(),
+      productImage: Joi.string().allow(''),
       productName: Joi.string().required(),
       email: Joi.string().email().required(),
       contact: Joi.number().required(),
